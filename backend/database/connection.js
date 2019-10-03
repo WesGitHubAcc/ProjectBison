@@ -1,8 +1,6 @@
 const sqlite3 = require('sqlite3').verbose()
 
-const path = require('path');
-const dbPath = path.resolve(__dirname, 'blackbison.db')
-const database = new sqlite3.Database(dbPath)
+const database = new sqlite3.Database('./database/blackbison.db')
 
 database.serialize(() => {
 
@@ -52,4 +50,4 @@ database.serialize(() => {
 
 });
 
-module.exports = database
+module.exports = new sqlite3.Database('./database/blackbison.db')

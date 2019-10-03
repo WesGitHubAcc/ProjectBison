@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 const menuRoute = require('./controllers/menu.js')
 const userRoute = require('./controllers/users.js')
 
+
 app.use('/menu/', menuRoute)
 app.use('/user/', userRoute)
 
