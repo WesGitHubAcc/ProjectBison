@@ -22,6 +22,9 @@ router.get('/', (request, response) => {
 //=====================MOSTRA ITENS POR CATEGORIA SELECIONADA===========================
 
 /*
+
+OBS: RETORNANDO VAZIO 
+
 router.get('/SelectItemCategory', (request, response) => { 
 
         const {category} = request.body
