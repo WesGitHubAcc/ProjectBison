@@ -11,17 +11,19 @@ app.use(bodyParser.json())
 
 const menuRoute = require('./controllers/menu.js')
 const userRoute = require('./controllers/users.js')
+const eventRoute = require('./controllers/event.js')
 
 
 app.use('/menu/', menuRoute)
 app.use('/user/', userRoute)
+app.use('/event/', eventRoute)
 
 
 //===============CONFIGURAÇÃO PORTA===================
 
 const port = 3000
 
-app.listen(port, () => {
+app.listen(/*PATH*/port, /*RANDLER*/() => {
     console.log(`Rodando na porta ${port}!`)
 })
 
