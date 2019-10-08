@@ -7,7 +7,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 
-//=====================ROUTES=========================
+//=====================ROTAS=========================
 
 const menuRoute = require('./controllers/menu.js')
 const userRoute = require('./controllers/users.js')
@@ -16,8 +16,13 @@ const userRoute = require('./controllers/users.js')
 app.use('/menu/', menuRoute)
 app.use('/user/', userRoute)
 
-app.listen(3000, () => {
-    console.log("Rodando na porta: 3000...")
+
+//===============CONFIGURAÇÃO PORTA===================
+
+const port = 3000
+
+app.listen(port, () => {
+    console.log(`Rodando na porta ${port}!`)
 })
 
 module.exports = app
