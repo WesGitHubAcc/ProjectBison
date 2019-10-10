@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 
-//============================MOSTRA TODOS ITENS DO MENU====================================
+//============================MOSTRA TODOS ITENS DO MENU================================
 
 router.get('/', (request, response) => {
     database.serialize(() => {
@@ -21,37 +21,29 @@ router.get('/', (request, response) => {
 
 //=====================MOSTRA ITENS POR CATEGORIA SELECIONADA===========================
 
-/*
 
-OBS: RETORNANDO VAZIO 
+router.get('/SelectItemCategory/:id', (request, response) => { 
 
-router.get('/SelectItemCategory', (request, response) => { 
+        const IDcategory = request.params.id
 
-        const {category} = request.body
-
-        if (category && category !== 0 ){
+        if (IDcategory && IDcategory !== 0 ){
 
             database.serialize(() => {
 
-                const selectCategoryName = 'SELECT category_name FROM category WHERE category_id = ?' 
-                const selectItemCategory = 'SELECT * FROM item WHERE item_category = ?'
+                const itensCategory = "SELECT * FROM item WHERE item_category = ?"
 
-                database.all(selectCategoryName, [category], (error, row) => {
+                database.all(itensCategory, [IDcategory], (error, row) => {
             
                     if (error)
                         response.status(404).send({ sucess: false, error: "categoria inexistente!" })
-                    else{
-                        database.all(selectItemCategory,[selectCategoryName], (error, row) => {
-                            response.status(200).json({sucess: row, error: false})  
-                        })
-                    }
+                    else
+                        response.status(200).json({sucess: row, error: false})  
                 })
-            })
+            })    
         }else
             response.status(404).send({ sucess: false, error: "erro!" })            
 })
 
-*/
 
 //============================CADASTRA ITENS NO MENU===================================
 
@@ -63,8 +55,7 @@ router.post('/', (request, response) => {
     {
         database.serialize(() => {
 
-            const selectCategoryID = "SELECT category_name FROM category WHERE category_id = ?"
-            const insertItem = `INSERT INTO item (item_name, item_price, item_category, item_description, item_url_image) VALUES (?, ?, (${selectCategoryID}), ?, ?)`
+            const insertItem = `INSERT INTO item (item_name, item_price, item_category, item_description, item_url_image) VALUES (?, ?, ?, ?, ?)`
             
             database.run(insertItem, [name, price, category, description, image], (error) => {
 
@@ -76,11 +67,11 @@ router.post('/', (request, response) => {
         })
 
     }else
-    response.status(400).json({ sucess: false, error: "Dados informados incorretamente!"}) 
+        response.status(400).json({ sucess: false, error: "Dados informados incorretamente!"}) 
 
 })
 
-//===========================DELETA ITENS DO MENU PELO ID===============================
+//===========================DELETA ITENS DO MENU PELO ID==============================
 
 router.delete('/:id', (request, response) => {
 
@@ -105,3 +96,4 @@ router.delete('/:id', (request, response) => {
 })
 
 module.exports = router
+
