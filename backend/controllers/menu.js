@@ -95,5 +95,69 @@ router.delete('/:id', (request, response) => {
         response.status(404).json({ sucess: false, error: "ID informado inexistente!"})
 })
 
+//============================EDITA ITENS DO MENU PELO ID==============================
+
+router.patch('/:id', (request, response) => {
+
+    const idItem = request.params.id;
+    const {name, price, category, description, image} = request.body
+
+    database.serialize(()=>{
+
+        selectUserID = 'SELECT item_id FROM item WHERE item_id = ?'
+
+        database.all(selectUserID, idItem, (error, row) => {
+
+            if(row.length > 0) {
+
+                if(name){
+                    database.run('UPDATE item SET item_name = ? WHERE item_id = ?', [name, idItem], (error, row) =>{
+                        if(error)
+                            response.status(404).json({ sucess: false, error: error.message})
+                        else
+                            response.status(200).json({ sucess: "Nome alterado!"})
+                    })
+                }    
+                if(price){
+                    database.run('UPDATE item SET item_price = ? WHERE item_id = ?', [price, idItem], (error, row) =>{
+                        if(error)
+                            response.status(404).json({ sucess: false, error: error.message})
+                        else
+                            response.status(200).json({ sucess: "preço alterado!"})
+                    })
+                } 
+                if(category){
+                    database.run('UPDATE item SET item_category = ? WHERE item_id = ?', [category, idItem], (error, row) =>{
+                        if(error)
+                            response.status(404).json({ sucess: false, error: error.message})
+                        else
+                            response.status(200).json({ sucess: "Categoria alterada!"})
+                    })
+                } 
+                if(description){
+                    database.run('UPDATE item SET item_description = ? WHERE item_id = ?', [description, idItem], (error, row) =>{
+                        if(error)
+                            response.status(404).json({ sucess: false, error: error.message})
+                        else
+                            response.status(200).json({ sucess: "Descrição alterada!"})
+                    })
+                } 
+                if(image){
+                    database.run('UPDATE item SET item_image = ? WHERE item_id = ?', [image, idItem], (error, row) =>{
+                        if(error)
+                            response.status(404).json({ sucess: false, error: error.message})
+                        else
+                            response.status(200).json({ sucess: "Nome alterado!"})
+                    })
+                } 
+            }else{
+                response.status(404).json({ sucess: false, error: 'Usuario não existe'})
+            }
+        })
+    })
+
+
+})
+
 module.exports = router
 
