@@ -5,7 +5,7 @@ const database = require("../database/connection.js")
 //===================================MOSTRA TODOS EVENTOS CADASTRADOS=======================================
 
 router.get('/', (request, response) => {
-    
+
     database.serialize(() => {
 
         const select = 'SELECT * FROM event'
@@ -20,7 +20,7 @@ router.get('/', (request, response) => {
     })
 })
 
-//=======================================INSERE EVENTO PELO ID===============================================
+//===========================================INSERE EVENTO==================================================
 
 router.post('/', (request, response) => {
 

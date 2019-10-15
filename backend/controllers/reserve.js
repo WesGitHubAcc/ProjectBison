@@ -78,7 +78,7 @@ router.post('/', (request, response) => {
 router.delete('/:id', (request, response) => {
 
     const idReserve = request.params.id 
-    const selectReserveID = 'SELECT reserve_id FROM reserve WHERE reserve_id = ?'
+    const selectReserveID = 'SELECT reserve_cpf FROM reserve WHERE reserve_cpf = ?'
 
     database.serialize(() => {
 
@@ -86,7 +86,7 @@ router.delete('/:id', (request, response) => {
 
             if(row.length > 0)
             {
-                const deleteReserve = 'DELETE FROM reserve WHERE reserve_id = ?'
+                const deleteReserve = 'DELETE FROM reserve WHERE reserve_cpf = ?'
 
                 database.run(deleteReserve, [idReserve], (error) => {
 
@@ -110,7 +110,7 @@ router.patch('/:id', (request, response) => {
 
     database.serialize(() => {
 
-        selectReserveID = 'SELECT reserve_id FROM reserve WHERE reserve_id = ?'
+        selectReserveID = 'SELECT reserve_cpf FROM reserve WHERE reserve_cpf = ?'
 
         database.all(selectReserveID, idReserve, (error, row) => {
 
@@ -118,7 +118,7 @@ router.patch('/:id', (request, response) => {
             {
                 if(name && price & category & description & image)
                 {
-                    const updateReserve = 'UPDATE reserve SET reserveCpf, reserve_name, reserve_phone, reserve_number_peaples, reserve_date WHERE reserve_id = ?'
+                    const updateReserve = 'UPDATE reserve SET reserveCpf, reserve_name, reserve_phone, reserve_number_peaples, reserve_date WHERE reserve_cpf = ?'
 
                     database.run(updateReserve, [reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate, idReserve], (error, row) =>{
 
