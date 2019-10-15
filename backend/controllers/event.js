@@ -2,51 +2,52 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 
-//==========================MOSTRA TODOS EVENTOS CADASTRADOS================================
+//===================================MOSTRA TODOS EVENTOS CADASTRADOS=======================================
 
 router.get('/', (request, response) => {
+    
     database.serialize(() => {
 
         const select = 'SELECT * FROM event'
 
         database.all( select, (error, row) => {
 
-            if ( error )
-                response.status( 404 ).send({ sucess: false, error: err.message })
+            if (error)
+                response.status(404).send({ sucess: false, error: err.message })
             else 
-                response.status( 200 ).json({ sucess: row, error: false })
+                response.status(200).json({ sucess: row, error: false })
         })
     })
 })
 
-//================================INSERE UM NOVO EVENTO=====================================
+//=======================================INSERE EVENTO PELO ID===============================================
 
 router.post('/', (request, response) => {
 
-    const {eventUrlImage} = request.body
+    const {eventName, eventUrlImage} = request.body
 
-    if( eventUrlImage ) 
+    if(eventUrlImage) 
     {
         database.serialize(() => {
-
             
-            const insertEvent = "INSERT INTO event (event_url_image) VALUES (?)"
+            const insertEvent = 'INSERT INTO event (event_name, event_url_image) VALUES (?,?)'
             
-            database.run( insertEvent, [eventUrlImage], (error) => {
+            database.run( insertEvent, [eventName, eventUrlImage], (error) => {
 
-                if( error )
-                    response.status( 400 ).json({ sucess: false, error: err.message})
+                if(error)
+                    response.status(400).json({ sucess: false, error: err.message})
                 else
-                    response.status( 201 ).json({ sucess: "Dados inseridos com sucesso!", error: false})
+                    response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false})
             })
         })
 
     }else
-    response.status( 400 ).json({ sucess: false, error: "Dados informados incorretamente!"}) 
+        response.status(400).json({ sucess: false, error: 'Dados informados incorretamente!'}) 
 
 })
 
-//===============================EXCLUI EVENTO PELO ID======================================
+
+//========================================EXCLUI EVENTO PELO ID==============================================
 
 router.delete('/:id', (request, response) => {
 
@@ -56,20 +57,20 @@ router.delete('/:id', (request, response) => {
 
         database.serialize(() => {
 
-            const deleteEvent = "DELETE FROM event WHERE event_id = ?"
+            const deleteEvent = 'DELETE FROM event WHERE event_id = ?'
 
             database.run( deleteEvent, [idEvent], (error) => {
 
-                if( error ) 
-                    response.status( 400 ).json({ sucess: false, error: error.message })
+                if(error) 
+                    response.status(400).json({ sucess: false, error: error.message })
                 else 
-                    response.status( 200 ).json({ sucess: 'Evento deletado com sucesso!', error: false})
+                    response.status(200).json({ sucess: 'Evento deletado com sucesso!', error: false})
             })
         } )
     }else
-        response.status( 404 ).json({ sucess: false, error: "ID informado inexistente!"})
+        response.status(404).json({ sucess: false, error: 'ID informado inexistente!'})
 })
 
-//==========================================================================================
+//============================================================================================================
 
 module.exports = router
