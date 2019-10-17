@@ -22,7 +22,7 @@ router.get('/', (request, response) => {
 
 //===========================================INSERE EVENTO==================================================
 
-router.post('/', (request, response) => {
+router.post('/', jwtMiddleWare,(request, response) => {
 
     const {eventName, eventUrlImage} = request.body
 
@@ -49,7 +49,7 @@ router.post('/', (request, response) => {
 
 //========================================EXCLUI EVENTO PELO ID==============================================
 
-router.delete('/:id', (request, response) => {
+router.delete('/:id', jwtMiddleWare,(request, response) => {
 
     const idEvent = request.params.id
 

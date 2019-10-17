@@ -22,7 +22,7 @@ router.get('/', (request, response) => {
 
 //=======================================CADASTRA ITENS NO MENU==============================================
 
-router.post('/', (request, response) => {
+router.post('/', jwtMiddleWare,(request, response) => {
 
     const {name, price, category, description, image} = request.body
 
@@ -48,7 +48,7 @@ router.post('/', (request, response) => {
 
 //======================================DELETA ITENS DO MENU PELO ID=========================================
 
-router.delete('/:id', (request, response) => {
+router.delete('/:id', jwtMiddleWare,(request, response) => {
 
     const idItem = request.params.id
 
@@ -72,7 +72,7 @@ router.delete('/:id', (request, response) => {
 
 //=======================================EDITA ITENS DO MENU PELO ID=========================================
 
-router.patch('/:id', (request, response) => {
+router.patch('/:id', jwtMiddleWare,(request, response) => {
 
     const idItem = request.params.id;
     const {name, price, category, description, image} = request.body

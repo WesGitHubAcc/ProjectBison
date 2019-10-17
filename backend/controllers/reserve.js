@@ -4,7 +4,7 @@ const database = require("../database/connection.js")
 
 //================================MOSTRA TODOS CLIENTES COM RESERVA==========================================
 
-router.get('/', (request, response) => {
+router.get('/', jwtMiddleWare,(request, response) => {
 
     database.serialize(() => {
 
