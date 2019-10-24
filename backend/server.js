@@ -10,14 +10,15 @@ app.use(bodyParser.json())
 //=====================ROTAS=========================
 
 const menuRoute = require('./controllers/menu.js')
-const userRoute = require('./controllers/users.js')
+//const userRoute = require('./controllers/users.js')
 const eventRoute = require('./controllers/event.js')
 const categoryRoute = require('./controllers/category.js')
 const reserveRoute = require('./controllers/reserve.js')
 
 
 app.use('/menu/', menuRoute)
-app.use('/user/', userRoute)
+
+//app.use('/user/', userRoute)
 app.use('/event/', eventRoute)
 app.use('/category/', categoryRoute)
 app.use('/reserve/', reserveRoute)

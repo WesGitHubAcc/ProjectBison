@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
-
+const expressJwt = require('express-jwt')
+const jwtMiddleWare = expressJwt({secret: 'dragonball'})
 //===================================MOSTRA ITENS PELO ID DA CATEGORIA SELECIONADA============================
 
 router.get('/:id', (request, response) => { 
@@ -28,7 +29,7 @@ router.get('/:id', (request, response) => {
 
 //===========================================CADASTRA CATEGORIA===============================================
 
-router.post('/', jwtMiddleWare,(request, response) => {
+router.post('/',(request, response) => {
 
     const categoryName = request.body.categoryName;
 
@@ -51,7 +52,7 @@ router.post('/', jwtMiddleWare,(request, response) => {
 
 //=======================================DELETA CATEGORIA PELO ID=============================================
 
-router.delete('/:id', jwtMiddleWare, (request, response) => {
+router.delete('/:id', (request, response) => {
 
     const categoryID = request.params.id
     
@@ -75,7 +76,7 @@ router.delete('/:id', jwtMiddleWare, (request, response) => {
 
 //=====================================ALTERA NOME DA CATEGORIA PELO ID=======================================
 
-router.put('/:id', jwtMiddleWare, (request, response) => {
+router.put('/:id',(request, response) => {
 
     const categoryID = request.params.id
     const categoryName = request.body.categoryName

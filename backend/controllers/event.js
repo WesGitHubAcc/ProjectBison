@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
-
+const expressJwt = require('express-jwt')
+const jwtMiddleWare = expressJwt({secret: 'dragonball'})
 //===================================MOSTRA TODOS EVENTOS CADASTRADOS=======================================
 
 router.get('/', (request, response) => {
@@ -22,7 +23,7 @@ router.get('/', (request, response) => {
 
 //===========================================INSERE EVENTO==================================================
 
-router.post('/', jwtMiddleWare,(request, response) => {
+router.post('/',(request, response) => {
 
     const {eventName, eventUrlImage} = request.body
 
@@ -49,7 +50,7 @@ router.post('/', jwtMiddleWare,(request, response) => {
 
 //========================================EXCLUI EVENTO PELO ID==============================================
 
-router.delete('/:id', jwtMiddleWare,(request, response) => {
+router.delete('/:id',(request, response) => {
 
     const idEvent = request.params.id
 

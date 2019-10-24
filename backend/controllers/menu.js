@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
-
+const expressJwt = require('express-jwt')
+const jwtMiddleWare = expressJwt({secret: 'dragonball'})
 //======================================MOSTRA TODOS ITENS DO MENU===========================================
 
 router.get('/', (request, response) => {
@@ -13,7 +14,7 @@ router.get('/', (request, response) => {
         database.all(select, (error, row) => {
 
             if (error)
-                response.status(404).send({ sucess: false, error: err.message })
+                response.status(404).json({ sucess: false, error: err.message })
             else 
                 response.status(200).json({ sucess: row, error: false })
         })
@@ -22,7 +23,7 @@ router.get('/', (request, response) => {
 
 //=======================================CADASTRA ITENS NO MENU==============================================
 
-router.post('/', jwtMiddleWare,(request, response) => {
+router.post('/',(request, response) => {
 
     const {name, price, category, description, image} = request.body
 
@@ -48,7 +49,7 @@ router.post('/', jwtMiddleWare,(request, response) => {
 
 //======================================DELETA ITENS DO MENU PELO ID=========================================
 
-router.delete('/:id', jwtMiddleWare,(request, response) => {
+router.delete('/:id',(request, response) => {
 
     const idItem = request.params.id
 
@@ -72,7 +73,7 @@ router.delete('/:id', jwtMiddleWare,(request, response) => {
 
 //=======================================EDITA ITENS DO MENU PELO ID=========================================
 
-router.patch('/:id', jwtMiddleWare,(request, response) => {
+router.patch('/:id',(request, response) => {
 
     const idItem = request.params.id;
     const {name, price, category, description, image} = request.body

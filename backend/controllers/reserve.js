@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
-
+const expressJwt = require('express-jwt')
+const jwtMiddleWare = expressJwt({secret: 'dragonball'})
 //================================MOSTRA TODOS CLIENTES COM RESERVA==========================================
 
-router.get('/', jwtMiddleWare,(request, response) => {
+router.get('/',(request, response) => {
 
     database.serialize(() => {
 
