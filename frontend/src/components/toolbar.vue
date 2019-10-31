@@ -25,10 +25,6 @@
 
 <style scoped>
 
-    .v-btn:before{
-      color:#cc00ff;
-    }
-
     .theme--dark.v-sheet{
       background: none;
     }

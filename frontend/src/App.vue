@@ -1,6 +1,5 @@
 <template>
   <v-app>
-    
     <toolbar></toolbar>
     <gallery></gallery>
     <event></event>
@@ -29,7 +28,7 @@ export default {
     event,
     compmenu,
     reserve,
-    teste
+    teste,
   }
 
 }

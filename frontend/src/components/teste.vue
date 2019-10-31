@@ -1,66 +1,46 @@
 <template>
-  <v-sheet
-    class="mx-auto"
-    elevation="8"
-    width="96%"
+  <v-footer
+    dark
+    padless
   >
-    <v-slide-group
-      v-model="model"
-      class="pa-1"
-      show-arrows
+    <v-card
+      class="flex"
+      flat
+      tile
     >
-      <v-slide-item
-        v-for="n in 15"
-        :key="n"
-        v-slot:default="{ active, toggle }"
-      >
-        <v-card
-          :color="active ? 'primary' : 'grey lighten-1'"
-          class="ma-4"
-          height="300"
-          width="300"
-          @click="toggle"
-        >
-          <v-row
-            class="fill-height"
-            align="center"
-            justify="center"
-          >
-            <v-scale-transition>
-              <v-icon
-                v-if="active"
-                color="white"
-                size="48"
-                v-text="'mdi-close-circle-outline'"
-              ></v-icon>
-            </v-scale-transition>
-          </v-row>
-        </v-card>
-      </v-slide-item>
-    </v-slide-group>
+      <v-card-title class="teal">
+        <strong class="subheading">Get connected with us on social networks!</strong>
 
-    <v-expand-transition>
-      <v-sheet
-        v-if="model != null"
-        color="grey lighten-4"
-        tile
-      >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
+        <v-spacer></v-spacer>
+
+        <v-btn
+          v-for="icon in icons"
+          :key="icon"
+          class="mx-4"
+          dark
+          icon
         >
-          <h3 class="title">Selected {{ model }}</h3>
-        </v-row>
-      </v-sheet>
-    </v-expand-transition>
-  </v-sheet>
+          <v-icon size="24px">{{ icon }}</v-icon>
+        </v-btn>
+      </v-card-title>
+
+      <v-card-text class="py-2 white--text text-center">
+        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+      </v-card-text>
+    </v-card>
+  </v-footer>
 </template>
 
 <script>
   export default {
     data: () => ({
-      model: null,
+      icons: [
+        'fab fa-facebook',
+        'fab fa-twitter',
+        'fab fa-google-plus',
+        'fab fa-linkedin',
+        'fab fa-instagram',
+      ],
     }),
   }
 </script>

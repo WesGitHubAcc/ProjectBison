@@ -23,8 +23,7 @@
       return {
         items: [
           {
-            src: 'https://free4kwallpapers.com/uploads/originals/2019/02/27/surreal-cyberpunk-wallpaper.jpg',
-            
+            src: 'https://free4kwallpapers.com/uploads/originals/2019/02/27/surreal-cyberpunk-wallpaper.jpg', 
           },
           {
             src: 'https://images4.alphacoders.com/779/thumb-1920-779618.jpg',

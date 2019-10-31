@@ -2,38 +2,31 @@
     <div class="text-center">
 
         <v-btn
-            tile
             outlined color="indigo"
             x-large
             class="ma-10 white--text"
-            min-width="20vw"
-        >
-        Data</v-btn>
+            min-width="30vh"
+        >Data</v-btn>
 
         <v-btn
-            tile
             outlined color="indigo"
             x-large
             class="ma-10 white--text"
-            min-width="20vw"
-        >Nº Pessoas
-        </v-btn>
+            min-width="30vh"
+        >Nº Pessoas</v-btn>
 
         <v-btn
-            color="#3f51b5"
-            tile
+            color="#6200ea"
             x-large
             class="ma-10 white--text"
-            min-width="20vw"
-        >Confirmar
-        </v-btn>
+            min-width="30vh"
+        >Confirmar</v-btn>
         
         <v-btn
-            color="#3f51b5"
-            tile
+            color="#6200ea"
             x-large
             class="ma-10 white--text"
-            min-width="20vw"
+            min-width="30vh"
         >Consultar</v-btn>
         
     </div>
@@ -43,4 +36,5 @@
     .text-center{
         margin: 15vh 0;
     }
+    
 </style>
