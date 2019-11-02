@@ -5,24 +5,21 @@ const expressJwt = require('express-jwt')
 const jwtMiddleWare = expressJwt({secret: 'dragonball'})
 //===================================MOSTRA ITENS PELO ID DA CATEGORIA SELECIONADA============================
 
-router.get('/:id', (request, response) => { 
+router.get('/:id', async (request, response) => { 
 
     const IDcategory = request.params.id
 
     if (IDcategory && IDcategory !== 0 )
     {
-        database.serialize(() => {
-
             const itensCategory = 'SELECT * FROM item WHERE item_category = ?'
 
-            database.all( itensCategory, [IDcategory], (error, row) => {
+           const rows = await database.all( itensCategory, [IDcategory]) 
         
-                if (error)
+                if (rows == undefined){
                     response.status(404).send({ sucess: false, error: 'Categoria inexistente!' })
-                else
-                    response.status(200).json({sucess: row, error: false})  
-            })
-        })    
+                }
+                    response.status(200).json({sucess: rows, error: false})  
+ 
     }else
         response.status(404).send({sucess: false, error: "erro!"})            
 })

@@ -1,8 +1,9 @@
-const sqlite3 = require('sqlite3').verbose()
-const database = new sqlite3.Database('./database/blackbison.db')
-/*
-database.serialize(() => {
+const path = require('path')
+const dir = path.resolve(__dirname, 'blackbison.db')
+const sqlite3 = require('sqlite3-promisify')
+const database = new sqlite3(dir)
 
+database.serialize(() => {
 
     //=============================USUARIOS======================================
 
@@ -11,7 +12,6 @@ database.serialize(() => {
         user_name TEXT NOT NULL,
         user_password TEXT NOT NULL,
     )`)
-    
     
     database.run(`CREATE TABLE if not exists reserve (
         reserve_cpf INTEGER PRIMARY KEY,
@@ -46,6 +46,5 @@ database.serialize(() => {
     database.close()
 
 });
-*/
 
-module.exports = new sqlite3.Database('./database/blackbison.db')
+module.exports = database

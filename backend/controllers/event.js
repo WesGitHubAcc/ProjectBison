@@ -2,76 +2,59 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 const expressJwt = require('express-jwt')
-const jwtMiddleWare = expressJwt({secret: 'dragonball'})
+const jwtMiddleWare = expressJwt({ secret: 'dragonball' })
+
 //===================================MOSTRA TODOS EVENTOS CADASTRADOS=======================================
 
-router.get('/', (request, response) => {
+router.get('/', async (request, response) => {
+    const select = 'SELECT * FROM event'
 
-    database.serialize(() => {
-
-        const select = 'SELECT * FROM event'
-
-        database.all( select, (error, row) => {
-
-            if (error)
-                response.status(404).send({ sucess: false, error: err.message })
-            else 
-                response.status(200).json({ sucess: row, error: false })
-        })
-    })
+    const events = await database.all(select)
+    if (events == undefined) {
+        response.status(404).send({ sucess: false, error: err.message })
+    }
+    response.status(200).json({ sucess: events, error: false })
 })
 
 //===========================================INSERE EVENTO==================================================
 
-router.post('/',(request, response) => {
+router.post('/', async (request, response) => {
 
-    const {eventName, eventUrlImage} = request.body
+    const { eventName, eventUrlImage } = request.body
 
-    if(eventUrlImage) 
-    {
-        database.serialize(() => {
-            
-            const insertEvent = 'INSERT INTO event (event_name, event_url_image) VALUES (?,?)'
-            
-            database.run( insertEvent, [eventName, eventUrlImage], (error) => {
+    if (!eventUrlImage) {
+        response.status(400).json({ sucess: false, error: 'Dados informados incorretamente!' })
+    }
+    const insertEvent = 'INSERT INTO event (event_name, event_url_image) VALUES (?,?)'
 
-                if(error)
-                    response.status(400).json({ sucess: false, error: err.message})
-                else
-                    response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false})
-            })
-        })
-
-    }else
-        response.status(400).json({ sucess: false, error: 'Dados informados incorretamente!'}) 
-
+    try {
+        await database.run(insertEvent, [eventName, eventUrlImage])
+        response.status(200).json({ sucess: 'Cadastrado com sucesso', error: false })
+    } catch (error) {
+        response.status(400).json({ sucess: false, error: "Não foi possivel cadastrar" })
+    }
 })
 
 
 //========================================EXCLUI EVENTO PELO ID==============================================
 
-router.delete('/:id',(request, response) => {
+router.delete('/:id', async (request, response) => {
 
     const idEvent = request.params.id
 
-    if( idEvent && idEvent !== 0 ) {
+    if (!idEvent || idEvent === 0) {
+        response.status(404).json({ sucess: false, error: 'ID informado inexistente!' })
+    }
+        const deleteEvent = 'DELETE FROM event WHERE event_id = ?'
+        try {
+            await database.run(deleteEvent, [idEvent])
+            response.status(200).json({ sucess: 'Evento deletado com sucesso!', error: false })
+        } catch (error) {
+            response.status(400).json({ sucess: false, error: error.message })
+        }
 
-        database.serialize(() => {
+    })
 
-            const deleteEvent = 'DELETE FROM event WHERE event_id = ?'
+    //============================================================================================================
 
-            database.run( deleteEvent, [idEvent], (error) => {
-
-                if(error) 
-                    response.status(400).json({ sucess: false, error: error.message })
-                else 
-                    response.status(200).json({ sucess: 'Evento deletado com sucesso!', error: false})
-            })
-        } )
-    }else
-        response.status(404).json({ sucess: false, error: 'ID informado inexistente!'})
-})
-
-//============================================================================================================
-
-module.exports = router
+    module.exports = router
