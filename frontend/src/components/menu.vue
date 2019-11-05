@@ -9,36 +9,32 @@
     >
     <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#tab-1" @click="burguer">
+      <v-tab href="#tab-1" @click="burguers">
         Burguers
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>fas fa-hamburger</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-2" @click="snick">
+      <v-tab href="#tab-2" @click="aperitivos">
         Aperitivos
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>fas fa-</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-3">
+      <v-tab href="#tab-3" @click="porcoes">
         Porções
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>fas fa-glass-martini-alt</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-4">
-        Steaks
-        <v-icon>mdi-heart</v-icon>
+      <v-tab href="#tab-4" @click="bifes">
+        Bifes
+        <v-icon>fas fa-stroopwafel</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-5">
+      <v-tab href="#tab-5" @click="sobremesas">
         Sobremesas
-        <v-icon>mdi-heart</v-icon>
+        <v-icon>fas fa-ice-cream</v-icon>
       </v-tab>
 
     </v-tabs>
-
-    <div id="itens">
-      {{ itens }}
-    </div>
 
     <v-sheet
       class="mx-auto"
@@ -58,7 +54,7 @@
         >
           
           <v-card
-            :color="active ? '#6200ea' : '#6200ea'"
+            :color="active ? 'grey lighten-5' : 'grey lighten-5'"
             class="ma-4"
             height="300"
             width="300"
@@ -78,17 +74,17 @@
               class="grey lighten-5"
               max-width="200"
               max-height="200"
-          > <center></center> </v-img>
+          ></v-img>
             
             <v-scale-transition>
               <div
                 v-if="active"
-                align="right"
-                justify="right"
+                align="center"
+                justify="center"
               > 
-                nome: asdasdasd {{item.item_name}}<br>
-                preço: {{item.item_price}}<br>
-                Descrição {{item.item_description}}
+                Nome: {{item.item_name}}<br>
+                Preço: {{item.item_price}}<br>
+                Descrição: {{item.item_description}}
                 </div>
             </v-scale-transition>
             
@@ -96,49 +92,43 @@
         </v-card>
       </v-slide-item>
     </v-slide-group>
-
- <!--   <v-expand-transition>
-      <v-sheet
-        v-if="model != null"
-        color="grey lighten-2"
-        tile
-      >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
-        >
-          <h3 class="title">Selected {{ model }}</h3>
-        </v-row>
-      </v-sheet>
-    </v-expand-transition> -->
   </v-sheet>
   </v-card>
 </template>
-
-<style>
-  #itens{
-    height: 10vh;
-  }
-</style>
-
 
 <script>
 import axios from 'axios';
  
 export default {
   data: () => ({
-    itens: null
+    itens: null,
+    tab: null,
+    model: null
   }),
       methods: {
-        burguer(){
+        burguers(){
             axios
               .get(`http://localhost:3000/category/${1}`)
-                .then(res => this.itens = res.data.sucess); 
+              .then(res => this.itens = res.data.sucess); 
         },
-        snick() {
+        aperitivos() {
           axios 
               .get(`http://localhost:3000/category/${2}`)
+              .then(res => this.itens = res.data.sucess)
+        },
+        porcoes() {
+          axios 
+              .get(`http://localhost:3000/category/${3}`)
+              .then(res => this.itens = res.data.sucess)
+        },
+        bifes() {
+          axios 
+              .get(`http://localhost:3000/category/${4}`)
+              .then(res => this.itens = res.data.sucess)
+        },
+        sobremesas() {
+          axios 
+              .get(`http://localhost:3000/category/${5}`)
               .then(res => this.itens = res.data.sucess)
         },
       }

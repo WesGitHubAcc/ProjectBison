@@ -2,6 +2,7 @@
   <v-app>
     <toolbar></toolbar>
     <gallery></gallery>
+    <about></about>
     <event></event>
     <compmenu></compmenu>
     <reserve></reserve>
@@ -18,6 +19,8 @@ import compmenu from './components/menu.vue'
 import reserve from './components/reserve.vue'
 import teste from './components/teste.vue'
 
+import about from './components/about.vue'
+
 export default {
 
   name: 'blackbison',
@@ -29,6 +32,7 @@ export default {
     compmenu,
     reserve,
     teste,
+    about,
   }
 
 }

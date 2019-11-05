@@ -1,21 +1,27 @@
 <template>
     <v-carousel
-      height="400"
       hide-delimiter-background
       show-arrows-on-hover
       hide-delimiters="false"
+      vertical="true"
     >
       <v-carousel-item
         v-for=" slide in slides"
-        :key="slide.event_id"
-        :src="slide.event_url_image"
+        :key="slide"
+      >
+
+      <v-sheet
+        height="100%"
+        tile
       >
           <v-row
             class="fill-height"
             align="center"
             justify="center"
           >
+          <img :src="slide.event_url_image" >
           </v-row>
+      </v-sheet>
       </v-carousel-item>
     </v-carousel>
 </template>
@@ -33,3 +39,9 @@ import axios from 'axios';
       },
     }
 </script>
+
+<style scoped>
+  #backgoundImage{
+    background-color: black;
+  }  
+</style>
