@@ -15,7 +15,7 @@
       :key="i"
       :src="item.src"
     ></v-carousel-item>  
-    <img contain="true" id="logo" src="../assets/LOGO.png" height="100%">
+    <img contain="true" id="logo" src="../assets/logo.png" height="100%">
   </v-carousel>
 </template>
 

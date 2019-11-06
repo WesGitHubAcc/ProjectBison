@@ -46,7 +46,7 @@ router.post('/', (request, response) => {
 
     const {reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate} = request.body
 
-    if(reserveCpf && reserveName && reservePhone && reserveNumberPeaples && reserveDate)
+    if(reserveCpf && reserveName && reserveLastName && reservePhone && reserveNumberPeaples && reserveDate)
     {
         database.serialize(() => {
 

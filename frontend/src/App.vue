@@ -18,7 +18,6 @@ import event from './components/event.vue'
 import compmenu from './components/menu.vue'
 import reserve from './components/reserve.vue'
 import teste from './components/teste.vue'
-
 import about from './components/about.vue'
 
 export default {

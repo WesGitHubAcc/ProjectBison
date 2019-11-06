@@ -16,6 +16,7 @@ database.serialize(() => {
     database.run(`CREATE TABLE if not exists reserve (
         reserve_cpf INTEGER PRIMARY KEY,
         reserve_name TEXT NOT NULL,
+        reserve_last_name TEXT NOT NULL,
         reserve_phone INTEGER NOT NULL,
         reserve_number_peaples INTEGER NOT NULL,
         reserve_date TEXT NOT NULL
