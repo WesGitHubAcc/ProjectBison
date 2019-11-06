@@ -127,9 +127,12 @@ import axios from "axios"
           amountPeaples: this.amountPeaples,
           date: this.date
         })
-        .catch( error =>(
-          this.message = error.response.data
+        .then( res => (
+          this.message = res.response.data
         ))
+        .catch(() => {
+          console.log('erro')
+        })
       }
     }
   }
