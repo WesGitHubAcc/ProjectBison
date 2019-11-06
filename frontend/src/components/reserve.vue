@@ -16,19 +16,19 @@
 <!--======================Campos formulario ===================================-->
 
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Nome" required></v-text-field>
+                        <v-text-field label="Nome" v-model="name" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Sobrenome" required></v-text-field>
+                        <v-text-field label="Sobrenome" v-model="lastname" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="CPF" required></v-text-field>
+                        <v-text-field label="CPF" v-model="CPF"required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Telefone" required></v-text-field>
+                        <v-text-field label="Telefone" v-model="phone" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field type="number" label="Nº pessoas" required></v-text-field>
+                        <v-text-field type="number" label="Nº pessoas" v-model="amountPeaples" required></v-text-field>
                     </v-col>
 
 <!--=========================Botão Data =======================================-->
@@ -49,6 +49,7 @@
                             label="Data"
                             readonly
                             v-on="on"
+                            v-model="date"
                             ></v-text-field>
                         </template>
                         <v-date-picker v-model="date" no-title scrollable>
@@ -68,7 +69,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="reserva = false">Sair</v-btn>
-          <v-btn color="blue darken-1" text @click="reserva = false">Salvar</v-btn>
+          <v-btn color="blue darken-1" text @click="reserve">Salvar</v-btn>
         </v-card-actions>
 
       </v-card> 
@@ -108,13 +109,31 @@
 </template>
 
 <script>
+import axios from "axios"
+
   export default {
     data: () => ({
       reserva: false,
       consulta: false,
     }),
-  }
 
+    methods: {
+      reserve(){
+        axios.post('http://localhost:3000/reserve/', {
+          CPF: this.CPF,
+          name: this.name,
+          lastname: this.lastname,
+          phone: this.phone,
+          amountPeaples: this.amountPeaples,
+          date: this.date
+        })
+        .catch( error =>(
+          this.message = error.response.data
+        ))
+      }
+    }
+  }
+  
 </script>
 
 <style>

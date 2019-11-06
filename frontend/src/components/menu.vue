@@ -82,10 +82,10 @@
                 align="center"
                 justify="center"
               > 
-                Nome: {{item.item_name}}<br>
-                Preço: {{item.item_price}}<br>
+                Nome: {{item.item_name}}
+                Preço: {{item.item_price}}
                 Descrição: {{item.item_description}}
-                </div>
+              </div>
             </v-scale-transition>
             
           </v-row>
