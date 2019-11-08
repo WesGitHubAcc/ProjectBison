@@ -10,7 +10,7 @@ router.get('/', async (request, response) => {
     const select = 'SELECT item_name, item_price, category_name, item_description, item_url_image FROM item, category WHERE category_id = item_category ORDER BY category_id'
 
     const itens = await database.all(select)
-    if (itens === 0) {
+    if (itens === undefined) {
         response.status(404).json({ sucess: false, error: "Campos vazios!" })
     }
     response.status(200).json({ sucess: itens, error: false })
@@ -34,7 +34,7 @@ router.post('/', async (request, response) => {
         response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false })
 
     } catch (error) {
-        response.status(400).json({ sucess: false, error: err.message })
+        response.status(400).json({ sucess: false, error: "" })
     }
 
 })

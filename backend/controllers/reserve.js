@@ -95,12 +95,10 @@ router.delete('/', async (request, response) => {
 
 //================================EDITA RESERVA DO CLIENTE PELO CPF==========================================
 
-router.patch('/:id', (request, response) => {
+router.patch('/', async (request, response) => {
 
     const idReserve = request.params.id;
     const { reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate } = request.body
-
-    database.serialize(() => {
 
         selectReserveID = 'SELECT reserve_cpf FROM reserve WHERE reserve_cpf = ?'
 
@@ -121,7 +119,6 @@ router.patch('/:id', (request, response) => {
             } else
                 response.status(404).json({ sucess: false, error: 'Usuario não existe' })
         })
-    })
 })
 
 //===========================================================================================================
