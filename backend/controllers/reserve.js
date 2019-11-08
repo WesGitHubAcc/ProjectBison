@@ -2,23 +2,27 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 const expressJwt = require('express-jwt')
-const jwtMiddleWare = expressJwt({secret: 'dragonball'})
+const jwtMiddleWare = expressJwt({ secret: 'dragonball' })
 //================================MOSTRA TODOS CLIENTES COM RESERVA==========================================
 
-router.get('/',(request, response) => {
+router.get('/', async (request, response) => {
 
-    database.serialize(() => {
+    const selectReserve = 'SELECT * FROM reserve ORDER BY reserve_date AND reserve_name'
 
-        const selectReserve = 'SELECT * FROM reserve ORDER BY reserve_date AND reserve_name'
+    const rows = await database.all(selectReserve)
 
-        database.all(selectReserve, (error, row) => {
+    try {
+        if (rows.length > 0)
+            response.status(200).json({ sucess: rows, error: false })
+    }
+    catch (e) {
+        console.log(e)
+        response.status(404).json({ sucess: false, error: "Erro ao retornar usuario" })
+    }
 
-            if(error)
-                response.status(404).json({sucess: false, error: error.message })
-            else
-                response.status(200).json({sucess: row, error: false})
-        })
-    })
+
+
+
 })
 
 //================================MOSTRA RESERVA DO CLIENTE PELO CPF=========================================
@@ -32,82 +36,69 @@ router.get('/:id', (request, response) => {
 
         database.all(selectReserveID, idReserve, (error, row) => {
 
-            if(error)
-                response.status(404).json({sucess: false, error: error.message })
+            if (error)
+                response.status(404).json({ sucess: false, error: error.message })
             else
-                response.status(200).json({sucess: row, error: false})
+                response.status(200).json({ sucess: row, error: false })
         })
     })
 })
 
 //=====================================INSERE RESERVA DO CLIENTE=============================================
 
-router.post('/', (request, response) => {
+router.post('/', async (request, response) => {
 
-    const {reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate} = request.body
+    const { CPF, name, lastName, phone, amountPeoples, date } = request.body
+        if (CPF && name && lastName && phone && amountPeoples && date) {
 
-    if(reserveCpf && reserveName && reserveLastName && reservePhone && reserveNumberPeaples && reserveDate)
-    {
-        database.serialize(() => {
+        
+        const selectReserve = 'SELECT reserve_date FROM reserve WHERE reserve_cpf = ? AND reserve_date = ?'
 
-            const selectReserve = 'SELECT reserve_date FROM reserve WHERE reserve_cpf = ? AND reserve_date = ?'
-            
-            database.all(selectReserve, [reserveCpf, reserveDate], (error, row) =>{
 
-                if(row.length > 0)
-                    response.status(401).json({sucess: false, error: 'Já existe uma reserva nesta data com esse cpf'})
-                else
-                {
-                    const insertReserve = 'INSERT INTO reserve (reserve_cpf, reserve_name, reserve_phone ,reserve_number_peaples, reserve_date) VALUES (?,?,?,?,?)'
-                    
-                    database.run(insertReserve, [reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate], (error) => {
+        const row = await database.get(selectReserve, [CPF, date])
+        if (row !== undefined) {
+            response.status(400).json({ sucess: false, error: 'cpf ja existe'}) 
+        }
+        try {
+            const insertReserve = 'INSERT INTO reserve (reserve_cpf, reserve_name,  reserve_last_name, reserve_phone ,reserve_number_peoples, reserve_date) VALUES (?,?,?,?,?, ?)'
+            await database.run(insertReserve, [CPF, name, lastName, phone, amountPeoples, date])
 
-                        if(error)
-                            response.status(404).json({sucess: false, error: error.message})
-                        else
-                            response.status(200).json({sucess: 'Reserva realizada com sucesso!', error: false})
-                    })
-                }
-            })
-        })
-    }else
-        response.status(400).json({sucess: false, error: 'Campos nao preenchidos'})
+            response.status(200).json({ sucess: 'Reserva realizada com sucesso!', error: false })
+        } catch (e) {
+            response.status(404).json({ sucess: false, error: "Não foi possivel cadastrar" })
+        }
+    } else
+        response.status(400).json({ sucess: false, error: 'Campos nao preenchidos' })
 })
 
 //================================DELETA RESERVA DO CLIENTE PELO CPF=========================================
 
-router.delete('/:id', (request, response) => {
+router.delete('/', async (request, response) => {
 
-    const idReserve = request.params.id 
+    const {CPF} = request.body
+
     const selectReserveID = 'SELECT reserve_cpf FROM reserve WHERE reserve_cpf = ?'
+    const rows = database.all(selectReserveID, [CPF])
 
-    database.serialize(() => {
-
-        database.all(selectReserveID, [idReserve], (error, row) => {
-
-            if(row.length > 0)
-            {
+        if (rows == undefined) 
+            response.status(404).json({sucess: false, error: 'Nenhuma reserva neste cpf'})  
+            try{ 
                 const deleteReserve = 'DELETE FROM reserve WHERE reserve_cpf = ?'
-
-                database.run(deleteReserve, [idReserve], (error) => {
-
-                    if(error)
-                        response.status(404).json({sucess: false, error: error.message})
-                    else
-                        response.status(200).json({sucess: 'Reserva deletada com sucesso!', error: false})
-                })
-            }else
-                response.status(400).json({sucess: false, error: 'Nenhum registro encontrado'})
-        })
-    })
+                await database.run(deleteReserve, [CPF])
+                response.status(200).json({ sucess: 'Reserva deletada com sucesso!', error: false })
+            }catch(e){ 
+                    response.status(404).json({ sucess: false, error: "Algo nao esta certo" })
+        } 
 })
+      
+
 
 //================================EDITA RESERVA DO CLIENTE PELO CPF==========================================
 
 router.patch('/:id', (request, response) => {
 
     const idReserve = request.params.id;
-    const {reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate} = request.body
+    const { reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate } = request.body
 
     database.serialize(() => {
 
@@ -115,22 +106,20 @@ router.patch('/:id', (request, response) => {
 
         database.all(selectReserveID, idReserve, (error, row) => {
 
-            if(row.length > 0)
-            {
-                if(name && price & category & description & image)
-                {
+            if (row.length > 0) {
+                if (name && price & category & description & image) {
                     const updateReserve = 'UPDATE reserve SET reserveCpf, reserve_name, reserve_phone, reserve_number_peaples, reserve_date WHERE reserve_cpf = ?'
 
-                    database.run(updateReserve, [reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate, idReserve], (error, row) =>{
+                    database.run(updateReserve, [reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate, idReserve], (error, row) => {
 
-                        if(error)
-                            response.status(404).json({ sucess: false, error: error.message})
+                        if (error)
+                            response.status(404).json({ sucess: false, error: error.message })
                         else
-                            response.status(200).json({ sucess: "Nome alterado!"})
+                            response.status(200).json({ sucess: "Nome alterado!" })
                     })
-                }    
-            }else
-                response.status(404).json({ sucess: false, error: 'Usuario não existe'})    
+                }
+            } else
+                response.status(404).json({ sucess: false, error: 'Usuario não existe' })
         })
     })
 })

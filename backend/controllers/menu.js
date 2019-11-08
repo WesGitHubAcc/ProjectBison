@@ -11,7 +11,7 @@ router.get('/', async (request, response) => {
 
     const itens = await database.all(select)
     if (itens === 0) {
-        response.status(404).json({ sucess: false, error: err.message })
+        response.status(404).json({ sucess: false, error: "Campos vazios!" })
     }
     response.status(200).json({ sucess: itens, error: false })
 

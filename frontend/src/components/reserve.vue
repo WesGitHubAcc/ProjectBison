@@ -19,16 +19,16 @@
                         <v-text-field label="Nome" v-model="name" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="Sobrenome" v-model="lastname" required></v-text-field>
+                        <v-text-field label="Sobrenome" v-model="lastName" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field label="CPF" v-model="CPF"required></v-text-field>
+                        <v-text-field label="CPF" v-model="CPF" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                         <v-text-field label="Telefone" v-model="phone" required></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
-                        <v-text-field type="number" label="Nº pessoas" v-model="amountPeaples" required></v-text-field>
+                        <v-text-field type="number" label="Nº pessoas" v-model="amountPeoples" required></v-text-field>
                     </v-col>
 
 <!--=========================Botão Data =======================================-->
@@ -45,7 +45,6 @@
                         >
                         <template v-slot:activator="{ on }">
                             <v-text-field
-                            v-model="date"
                             label="Data"
                             readonly
                             v-on="on"
@@ -115,6 +114,12 @@ import axios from "axios"
     data: () => ({
       reserva: false,
       consulta: false,
+      CPF: "",
+      name: "",
+      lastName: "",
+      phone: "",
+      amountPeoples: "",
+      date: ""
     }),
 
     methods: {
@@ -122,16 +127,16 @@ import axios from "axios"
         axios.post('http://localhost:3000/reserve/', {
           CPF: this.CPF,
           name: this.name,
-          lastname: this.lastname,
+          lastName: this.lastName,
           phone: this.phone,
-          amountPeaples: this.amountPeaples,
+          amountPeoples: this.amountPeoples,
           date: this.date
         })
         .then( res => (
           this.message = res.response.data
         ))
-        .catch(() => {
-          console.log('erro')
+        .catch((e) => {
+          console.log(e.response.data.error)
         })
       }
     }
