@@ -2,18 +2,18 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 const expressJwt = require('express-jwt')
-const jwtMiddleWare = expressJwt({ secret: 'dragonball' })
+
 //======================================MOSTRA TODOS ITENS DO MENU===========================================
 
 router.get('/', async (request, response) => {
 
     const select = 'SELECT i.name, i.price, c.name, i.description, i.image FROM item AS i, category AS c WHERE c.id = itemCategory ORDER BY c.id'
 
-    const itens = await database.all(select)
-    if (itens === undefined) {
+    const items = await database.all(select)
+    if (items === undefined) {
         response.status(404).json({ sucess: false, error: "Campos vazios!" })
     }
-    response.status(200).json({ sucess: itens, error: false })
+    response.status(200).json({ sucess: items, error: false })
 
 })
 
@@ -67,9 +67,9 @@ router.patch('/:id', async (request, response) => {
 
     selectUserID = 'SELECT id FROM item WHERE id = ?'
 
-    const itens = await database.all(selectUserID, idItem)
+    const items = await database.all(selectUserID, idItem)
 
-    if (itens == 0) {
+    if (items == 0) {
         response.status(404).json({ sucess: false, error: 'Usuario não existe' })
     }
     if (!name || !price || !category || !description || !image) {
