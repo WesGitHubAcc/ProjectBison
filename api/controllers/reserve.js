@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const database = require("../database/connection.js")
 const expressJwt = require('express-jwt')
+const cpfCheck = require('cpf-check')
 const jwtMiddleWare = expressJwt({ secret: 'dragonball' })
 //================================MOSTRA TODOS CLIENTES COM RESERVA==========================================
 
@@ -76,7 +77,9 @@ router.delete('/', async (request, response) => {
     const selectReserveID = 'SELECT CPF FROM reserve WHERE CPF = ?'
     const rows = database.all(selectReserveID, [CPF])
 
-    if (rows == undefined)
+
+
+    if (rows.length == undefined)
         response.status(404).json({ sucess: false, error: 'Nenhuma reserva neste cpf' })
     try {
         const deleteReserve = 'DELETE FROM reserve WHERE CPF = ?'
@@ -93,28 +96,34 @@ router.delete('/', async (request, response) => {
 
 router.patch('/', async (request, response) => {
 
-    const idReserve = request.params.id;
-    const { reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate } = request.body
+    const { CPF, name, lastName, phone, amountPeoples, date } = request.body
 
     selectReserveID = 'SELECT CPF FROM reserve WHERE CPF = ?'
 
-    database.all(selectReserveID, idReserve, (error, row) => {
+    const reserves = await database.get(selectReserveID, [CPF])
 
-        if (row.length > 0) {
-            if (name && price & category & description & image) {
-                const updateReserve = 'UPDATE reserve SET CPF, name, phone, amountPeoples, date WHERE CPF = ?'
+    if (reserves == undefined) {
+        response.status(404).json({ sucess: false, error: 'Usuario não existe' })
+    }
+    /* if(!cpfCheck(CPF)) {
+         response.status(404).json({ sucess: false, error: 'Erro ao reconhecer o CPF'})
+     }*/
+    if (!CPF || !name || !lastName || !phone || !amountPeoples || !date) {
+        response.status(404).json({ sucess: false, error: 'Preencha os campos' })
+    }
+    try {
+        const updateReserve = 'UPDATE reserve SET name = ?, lastName = ?, phone = ?, amountPeoples = ?, date = ? WHERE CPF = ?'
+        await database.run(updateReserve, [name, lastName, phone, amountPeoples, date, reserves.CPF])
+        response.status(200).json({ sucess: "Nome alterado!" })
+    }
+    catch (error) {
+        console.log(error)
+        response.status(404).json({ sucess: false, erro: 'Deu ruim' })
+    }
 
-                database.run(updateReserve, [reserveCpf, reserveName, reservePhone, reserveNumberPeaples, reserveDate, idReserve], (error, row) => {
 
-                    if (error)
-                        response.status(404).json({ sucess: false, error: error.message })
-                    else
-                        response.status(200).json({ sucess: "Nome alterado!" })
-                })
-            }
-        } else
-            response.status(404).json({ sucess: false, error: 'Usuario não existe' })
-    })
+
+
 })
 
 //===========================================================================================================
