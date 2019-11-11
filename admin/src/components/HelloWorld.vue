@@ -39,6 +39,10 @@
         sort-by="calories"
         class="elevation-1"
       >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.items.calories }}</td>
+        <td class="text-xs-right">{{ props.items.name }}</td>
+      </template>
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Lista de itens</v-toolbar-title>
@@ -48,6 +52,8 @@
           vertical
         ></v-divider>
         <v-spacer></v-spacer>
+
+<!--=========================NOVO ITEM===================================-->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2" v-on="on">Novo Item</v-btn>
@@ -88,6 +94,7 @@
         </v-dialog>
       </v-toolbar>
     </template>
+
     <template v-slot:item.action="{ item }">
       <v-icon
         small
@@ -119,24 +126,27 @@
 <script>
 
 import axios from 'axios'
+
   export default {
     data: () => ({
       dialog: false,
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Nome',
           align: 'left',
           sortable: false,
           value: 'name',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
+        { text: 'Preço', value: 'price' },
+        { text: 'Categoria', value: 'itemCategory' },
+        { text: 'Descrição', value: 'description' },
         { text: 'Actions', value: 'action', sortable: false },
       ],
+
       desserts: [],
+
       editedIndex: -1,
+
       editedItem: {
         name: '',
         calories: 0,
@@ -170,20 +180,14 @@ import axios from 'axios'
     },
 
     methods: {
+      
       initialize () {
         axios.get('http://localhost:3000/menu/')
-        .then(res => this.desserts = res.data.sucess)
-        this.desserts = [
-          {
-
-            name: this.desserts.name,
-            calories: this.desserts.price,
-            fat: this.desserts.description,
-            carbs: 24,
-            protein: 4.0,
-          },
-        ]
-      },
+        .then(res => {
+          this.desserts = res.data.sucess
+        })
+        
+        },
 
       editItem (item) {
         this.editedIndex = this.desserts.indexOf(item)

@@ -4,8 +4,8 @@
      style="background-color:rgba(18, 22, 26, 0.87);"
         dark
         dense
-        fixed="true"
-        width="100%"
+        fixed = "true"
+        width = "100%"
         
     >
       <v-toolbar-title id="tituloToolbar">BLACK BISON</v-toolbar-title>

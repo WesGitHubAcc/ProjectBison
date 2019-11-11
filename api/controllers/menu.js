@@ -7,7 +7,7 @@ const expressJwt = require('express-jwt')
 
 router.get('/', async (request, response) => {
 
-    const select = 'SELECT i.name, i.price, c.name, i.description, i.image FROM item AS i, category AS c WHERE c.id = itemCategory ORDER BY c.id'
+    const select = 'SELECT * FROM item'
 
     const items = await database.all(select)
     if (items === undefined) {

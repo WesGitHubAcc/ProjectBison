@@ -3,7 +3,7 @@
       hide-delimiter-background
       show-arrows-on-hover
       hide-delimiters="false"
-      vertical="true"
+      vertical = "true"
     >
       <v-carousel-item
         v-for=" slide in slides"
