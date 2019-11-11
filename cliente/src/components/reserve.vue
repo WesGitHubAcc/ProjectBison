@@ -7,7 +7,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Formulário Reserva</span>
+          <span class="headline">Formulário Reserva {{reserva}}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -91,7 +91,7 @@
                         <v-text-field label="Digite aqui o cpf" required></v-text-field>
                     </v-col>
                 </v-row>
-          </v-container>
+          </v-container>  
           <small>*Regras da Reserva</small>
         </v-card-text>
 
@@ -119,7 +119,8 @@ import axios from "axios"
       lastName: "",
       phone: "",
       amountPeoples: "",
-      date: ""
+      date: "",
+      menu: ''
     }),
 
     methods: {
@@ -138,6 +139,7 @@ import axios from "axios"
         .catch((e) => {
           console.log(e.response.data.error)
         })
+        this.reserve = false
       }
     }
   }

@@ -4,7 +4,7 @@
      style="background-color:rgba(18, 22, 26, 0.87);"
         dark
         dense
-        fixed = "true"
+        :fixed =true
         width = "100%"
         
     >

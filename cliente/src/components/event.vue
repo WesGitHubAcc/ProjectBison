@@ -2,17 +2,17 @@
     <v-carousel
       hide-delimiter-background
       show-arrows-on-hover
-      hide-delimiters="false"
-      vertical = "true"
+      :hide-delimiters=false
+      :vertical= true
     >
       <v-carousel-item
-        v-for=" slide in slides"
-        :key="slide"
+        v-for=" (slide, i) in slides"
+        :key="i"
       >
 
       <v-sheet
         height="100%"
-        tile
+        :tile=true
       >
           <v-row
             class="fill-height"
