@@ -39,10 +39,7 @@
         sort-by="calories"
         class="elevation-1"
       >
-      <template slot="items" slot-scope="props">
-        <td>{{ props.items.calories }}</td>
-        <td class="text-xs-right">{{ props.items.name }}</td>
-      </template>
+
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Lista de itens</v-toolbar-title>
@@ -67,19 +64,22 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.name" label="Dessert name"></v-text-field>
+                    <v-text-field v-model="id" label="Nome"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.calories" label="Calories"></v-text-field>
+                    <v-text-field v-model="name" label="Nome"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
+                    <v-text-field v-model="price" label="Preço"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.carbs" label="Carbs (g)"></v-text-field>
+                    <v-text-field v-model="category" label="Categoria"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="editedItem.protein" label="Protein (g)"></v-text-field>
+                    <v-text-field v-model="description" label="Descrição"></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                     <v-text-field v-model="image" label="image"></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
@@ -90,6 +90,7 @@
               <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
               <v-btn color="blue darken-1" text @click="save">Save</v-btn>
             </v-card-actions>
+
           </v-card>
         </v-dialog>
       </v-toolbar>
@@ -98,16 +99,17 @@
     <template v-slot:item.action="{ item }">
       <v-icon
         small
-        class="mr-2"
         @click="editItem(item)"
       >
-        edit
+       fas fa-edit
       </v-icon>
+
+
       <v-icon
         small
         @click="deleteItem(item)"
       >
-        delete
+        fas fa-trash-alt
       </v-icon>
     </template>
     <template v-slot:no-data>
@@ -129,8 +131,17 @@ import axios from 'axios'
 
   export default {
     data: () => ({
+
       dialog: false,
+      id: "",
+      name: "",
+      price: "",
+      category: "",
+      description: "",
+      image: "",
+
       headers: [
+        { text: 'id', value: 'id' },
         {
           text: 'Nome',
           align: 'left',
@@ -183,8 +194,11 @@ import axios from 'axios'
       
       initialize () {
         axios.get('http://localhost:3000/menu/')
-        .then(res => {
-          this.desserts = res.data.sucess
+        .then(response => {
+          this.desserts = response.data.sucess
+        })
+        .catch((e) =>{
+          console.log(e.response.data.error)
         })
         
         },
@@ -209,12 +223,21 @@ import axios from 'axios'
       },
 
       save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else {
-          this.desserts.push(this.editedItem)
-        }
-        this.close()
+        axios.post('http://localhost:3000/menu/', {
+          name: this.name,
+          price: this.price,
+          description: this.description,
+          category: this.category,
+          image: this.image
+        })
+        .then( res =>{
+          this.dialog = false
+          this.initialize()
+          this.message = res.response.data.sucess
+        })
+        .catch((e) => {
+          console.log(e.response.data.sucess)
+        })
       },
     },
   }

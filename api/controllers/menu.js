@@ -23,6 +23,7 @@ router.post('/', async (request, response) => {
 
     const { name, price, category, description, image } = request.body
 
+    
     if (!name || !price || !category || !description || !image) {
         response.status(400).json({ sucess: false, error: 'Dados informados incorretamente!' })
     }
@@ -34,7 +35,7 @@ router.post('/', async (request, response) => {
         response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false })
 
     } catch (error) {
-        response.status(400).json({ sucess: false, error: "" })
+        response.status(400).json({ sucess: false, error: "Não foi possivel cadastrar" })
     }
 
 })
@@ -45,7 +46,7 @@ router.delete('/:id', async (request, response) => {
 
     const idItem = request.params.id
 
-    if (!idItem || idItem !== 0) {
+    if (idItem === undefined) {
         response.status(404).json({ sucess: false, error: 'ID informado inexistente!' })
     }
     const deleteItem = 'DELETE FROM item WHERE id = ?'
