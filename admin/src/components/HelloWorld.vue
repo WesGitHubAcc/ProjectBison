@@ -64,9 +64,6 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field v-model="id" label="Nome"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
                     <v-text-field v-model="name" label="Nome"></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
@@ -159,18 +156,18 @@ import axios from 'axios'
       editedIndex: -1,
 
       editedItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        name: "",
+        price: "",
+        category: "",
+        description: "",
+        image: "",
       },
       defaultItem: {
-        name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        name: "",
+        price: "",
+        category: "",
+        description: "",
+        image: "",
       },
     }),
 
@@ -212,6 +209,9 @@ import axios from 'axios'
       deleteItem (item) {
         const index = this.desserts.indexOf(item)
         confirm('Voce tem certeza que deseja apagar este item?') && this.desserts.splice(index, 1)
+        console.log('deleted data')
+
+        axios.delete(`http://localhost:3000/menu/${item.id}`)
       },
 
       close () {

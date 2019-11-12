@@ -54,7 +54,7 @@ router.delete('/:id', async (request, response) => {
         await database.run(deleteItem, [idItem])
         response.status(200).json({ sucess: 'Item deletado com sucesso!', error: false })
     } catch (error) {
-        response.status(400).json({ sucess: false, error: error.message })
+        response.status(400).json({ sucess: false, error: "Não foi possivel deletar" })
     }
 
 })
