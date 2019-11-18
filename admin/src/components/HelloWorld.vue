@@ -1,4 +1,4 @@
-<template>
+<template dark>
   <v-app id="inspire">
     <v-navigation-drawer app clipped>
       <v-list dense>
@@ -27,8 +27,7 @@
     <!--===========================ITENS=========================================-->
 
     <v-content>
-      {{saveOrEdit}}
-      <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
+      <v-data-table :headers="headers" :items="menu" sort-by="calories" class="elevation-1">
         <template v-slot:top>
           <v-toolbar flat color="white">
             <v-toolbar-title>Lista de itens</v-toolbar-title>
@@ -48,19 +47,19 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="name" label="Nome"></v-text-field>
+                        <v-text-field required v-model="name" label="Nome"  ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="price" label="Preço"></v-text-field>
+                        <v-text-field v-model="price" label="Preço" required></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="category" label="Categoria"></v-text-field>
+                        <v-text-field v-model="category" label="Categoria" required></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="description" label="Descrição"></v-text-field>
+                        <v-text-field v-model="description" label="Descrição" required></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="image" label="image"></v-text-field>
+                        <v-text-field v-model="image" label="image" required ></v-text-field>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -77,9 +76,10 @@
         </template>
 
         <template v-slot:item.action="{ item }">
-          <v-icon small @click="editItem(item)">fas fa-edit</v-icon>
-
-          <v-icon small @click="deleteItem(item)">fas fa-trash-alt</v-icon>
+          <div class="mx-2">
+            <v-icon small @click="editItem(item)">fas fa-edit</v-icon>
+            <v-icon small @click="deleteItem(item)">fas fa-trash-alt</v-icon>
+          </div> 
         </template>
         <template v-slot:no-data>
           <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -121,11 +121,12 @@ export default {
       { text: "Actions", value: "action", sortable: false }
     ],
 
-    desserts: [],
+    menu: [],
 
     editedIndex: -1,
 
     editedItem: {
+      id: "",
       name: "",
       price: "",
       category: "",
@@ -146,7 +147,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+      return this.editedIndex === -1 ? "New Item" : "Edit Item"; // nao entendi isso aqui
     }
   },
 
@@ -165,7 +166,7 @@ export default {
       axios
         .get("http://localhost:3000/menu/")
         .then(response => {
-          this.desserts = response.data.sucess;
+          this.menu = response.data.sucess;
         })
         .catch(e => {
           console.log(e.response.data.error);
@@ -173,21 +174,22 @@ export default {
     },
 
     editItem(item) {
+
       this.name = item.name;
       this.price = item.price;
       this.description = item.description;
       this.category = item.itemCategory;
       this.image = item.image;
+      this.editedIndex = item.id;
       this.dialog = true;
-
       this.saveOrEdit = 1;
     },
 
     deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Voce tem certeza que deseja apagar este item?") &&
-        this.desserts.splice(index, 1);
-      console.log("deleted data");
+      const index = this.menu.indexOf(item);
+      //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
+      confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1); 
+      //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
 
       axios.delete(`http://localhost:3000/menu/${item.id}`);
     },
@@ -213,15 +215,34 @@ export default {
           .then(res => {
             this.dialog = false;
             this.initialize();
-            this.message = res.response.data.sucess;
+            this.message = res.data.sucess;
             console.log("deu certo");
           })
           .catch(e => {
-            console.log(e.response.data.sucess);
+            console.log(e.response.data.error);
           });
       } else {
-        this.saveOrEdit = 0;
-        console.log("entrou aqui");
+        axios
+          .patch(`http://localhost:3000/menu/${this.editedIndex}`, {
+            name: this.name,
+            price: this.price,
+            description: this.description,
+            category: this.category,
+            image: this.image
+          })
+          .then(res => {
+            console.log("Item Alterado");
+            this.initialize();
+            this.message = res.data.sucess;
+            this.editedIndex = -1;
+            this.dialog = false;
+            this.saveOrEdit = 0;
+          })
+          .catch(e => {
+            console.log("Erro");
+            console.log(e.response.data.error);
+          });
+            
       }
     }
   }

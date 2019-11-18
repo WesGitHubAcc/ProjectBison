@@ -71,7 +71,7 @@ router.patch('/:id', async (request, response) => {
     const items = await database.all(selectUserID, idItem)
 
     if (items == 0) {
-        response.status(404).json({ sucess: false, error: 'Usuario não existe' })
+        response.status(404).json({ sucess: false, error: 'item não existe' })
     }
     if (!name || !price || !category || !description || !image) {
         response.status(400).json({ sucess: false, error: error.message })
@@ -80,9 +80,9 @@ router.patch('/:id', async (request, response) => {
 
     try {
         await database.run(updateItem, [name, price, category, description, image, idItem])
-        response.status(200).json({ sucess: "Nome alterado!" })
+        response.status(200).json({ sucess: "item alterado!" })
     } catch (error) {
-        response.status(400).json({ sucess: false, error: error.message })
+        response.status(400).json({ sucess: false, error: "Alguma coisa deu errado" })
     }
 
 
