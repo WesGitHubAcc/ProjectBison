@@ -1,42 +1,13 @@
-<template dark>
-  <v-app id="inspire">
-    <v-navigation-drawer app clipped>
-      <v-list dense>
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title>ITENS</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title>RESERVAS</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title>EVENTOS</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+<template >
 
-    <v-app-bar app clipped-left>
-      <v-toolbar-title>Pagina do Administrador</v-toolbar-title>
-    </v-app-bar>
-
-    <!--===========================ITENS=========================================-->
-
-    <v-content>
-      <v-data-table :headers="headers" :items="menu" sort-by="calories" class="elevation-1">
+      <v-data-table :headers="headers" :items="menu" sort-by="name" class="elevation-1" dark >
         <template v-slot:top>
-          <v-toolbar flat color="white">
-            <v-toolbar-title>Lista de itens</v-toolbar-title>
+          <v-toolbar flat dark>
+            <v-toolbar-title >Lista de itens</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
+            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Novo Item</v-btn>
 
-            <v-btn color="primary" dark class="mb-2" @click="dialog = true">Novo Item</v-btn>
-
-            <!--=========================NOVO ITEM===================================-->
             <v-dialog v-model="dialog" max-width="500px">
               <v-card>
                 <v-card-title>
@@ -67,38 +38,36 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                  <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                  <v-btn color="red darken-3" text @click="close">Cancel</v-btn>
+                  <v-btn color="red darken-3" text @click="save">Save</v-btn>
                 </v-card-actions>
               </v-card>
+
             </v-dialog>
           </v-toolbar>
         </template>
 
         <template v-slot:item.action="{ item }">
           <div class="mx-2">
-            <v-icon small @click="editItem(item)">fas fa-edit</v-icon>
-            <v-icon small @click="deleteItem(item)">fas fa-trash-alt</v-icon>
+            <v-icon small @click="editItem(item)" class="iconsList" color="indigo lighten-4">fas fa-edit</v-icon>
+            <v-icon small @click="deleteItem(item)" class="iconsList" color="indigo lighten-4">fas fa-trash-alt</v-icon>
           </div> 
         </template>
+
         <template v-slot:no-data>
           <v-btn color="primary" @click="initialize">Reset</v-btn>
         </template>
       </v-data-table>
-    </v-content>
-
-    <v-footer app>
-      <span>&copy; 2019</span>
-    </v-footer>
-  </v-app>
 </template>
 
 
 <script>
+
 import axios from "axios";
 
 export default {
   data: () => ({
+
     dialog: false,
     id: "",
     name: "",
@@ -107,18 +76,18 @@ export default {
     description: "",
     image: "",
 
+    itemsPerPageOptions: [10, 20, 30],
+    itemsPerPage: 10,
+
     headers: [
-      { text: "id", value: "id" },
-      {
-        text: "Nome",
-        align: "left",
-        sortable: false,
-        value: "name"
-      },
+
+      { text: "id", value: "id", align: "left" },
+      { text: "Nome", value: "name" },
       { text: "Preço", value: "price" },
       { text: "Categoria", value: "itemCategory" },
       { text: "Descrição", value: "description" },
       { text: "Actions", value: "action", sortable: false }
+
     ],
 
     menu: [],
@@ -126,42 +95,54 @@ export default {
     editedIndex: -1,
 
     editedItem: {
+
       id: "",
       name: "",
       price: "",
       category: "",
       description: "",
       image: ""
+
     },
 
     defaultItem: {
+
       name: "",
       price: "",
       category: "",
       description: "",
       image: ""
+
     },
 
     saveOrEdit: 0
+
   }),
 
   computed: {
+
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item"; // nao entendi isso aqui
     }
+
   },
 
   watch: {
+
     dialog(val) {
       val || this.close();
     }
+
   },
 
   created() {
+
     this.initialize();
+
   },
 
   methods: {
+
     initialize() {
       axios
         .get("http://localhost:3000/menu/")
@@ -183,26 +164,31 @@ export default {
       this.editedIndex = item.id;
       this.dialog = true;
       this.saveOrEdit = 1;
+
     },
 
     deleteItem(item) {
+
       const index = this.menu.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
       confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1); 
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-
       axios.delete(`http://localhost:3000/menu/${item.id}`);
+
     },
 
     close() {
+
       this.dialog = false;
       setTimeout(() => {
         this.editedItem = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       }, 300);
+
     },
 
     save() {
+
       if (this.saveOrEdit == 0) {
         axios
           .post("http://localhost:3000/menu/", {
@@ -242,7 +228,6 @@ export default {
             console.log("Erro");
             console.log(e.response.data.error);
           });
-            
       }
     }
   }

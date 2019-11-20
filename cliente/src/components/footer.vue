@@ -14,13 +14,20 @@
           <v-spacer></v-spacer>
   
           <v-btn
-            v-for="icon in icons"
-            :key="icon"
+            href="https://www.facebook.com/blackbisonbr/"
             class="mx-4"
             dark
             icon
           >
-            <v-icon size="24px">{{ icon }}</v-icon>
+            <v-icon size="24px">fab fa-facebook</v-icon>
+          </v-btn>
+          <v-btn
+            href="https://www.instagram.com/blackbisonbr/"
+            class="mx-4"
+            dark
+            icon
+          >
+            <v-icon size="24px">fab fa-instagram</v-icon>
           </v-btn>
         </v-card-title>
   
@@ -34,10 +41,7 @@
   <script>
     export default {
       data: () => ({
-        icons: [
-          'fab fa-facebook',
-          'fab fa-instagram',
-        ],
+        
       }),
     }
   </script>

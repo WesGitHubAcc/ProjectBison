@@ -17,7 +17,6 @@ const reserveRoute = require('./controllers/reserve.js')
 
 
 app.use('/menu/', menuRoute)
-
 //app.use('/user/', userRoute)
 app.use('/event/', eventRoute)
 app.use('/category/', categoryRoute)
