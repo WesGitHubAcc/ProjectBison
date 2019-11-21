@@ -69,22 +69,21 @@ router.post('/', async (request, response) => {
         response.status(400).json({ sucess: false, error: 'Campos nao preenchidos' })
 })
 
-//================================DELETA RESERVA DO CLIENTE PELO CPF=========================================
+//================================DELETA RESERVA DO CLIENTE PELO ID=========================================
 
-router.delete('/', async (request, response) => {
+router.delete('/:id', async (request, response) => {
 
-    const { CPF } = request.body
+    const idReserve = request.params.id
 
-    const selectReserveID = 'SELECT CPF FROM reserve WHERE CPF = ?'
-    const rows = database.all(selectReserveID, [CPF])
-
+    const selectReserveID = 'SELECT CPF FROM reserve WHERE id = ?'
+    const rows = database.all(selectReserveID, idReserve)
 
 
     if (rows.length == undefined)
         response.status(404).json({ sucess: false, error: 'Nenhuma reserva neste cpf' })
     try {
-        const deleteReserve = 'DELETE FROM reserve WHERE CPF = ?'
-        await database.run(deleteReserve, [CPF])
+        const deleteReserve = 'DELETE FROM reserve WHERE id = ?'
+        await database.run(deleteReserve, idReserve)
         response.status(200).json({ sucess: 'Reserva deletada com sucesso!', error: false })
     } catch (e) {
         response.status(404).json({ sucess: false, error: "Algo nao esta certo" })

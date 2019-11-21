@@ -12,6 +12,7 @@ const database = new sqlite3(dir)
     );
     
     CREATE TABLE if not exists reserve (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         CPF INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         lastName TEXT NOT NULL,
