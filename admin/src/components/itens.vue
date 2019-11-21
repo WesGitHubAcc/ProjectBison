@@ -1,5 +1,4 @@
 <template >
-
       <v-data-table :headers="headers" :items="menu" sort-by="name" class="elevation-1" dark >
         <template v-slot:top>
           <v-toolbar flat dark>

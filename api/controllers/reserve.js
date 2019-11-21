@@ -4,6 +4,7 @@ const database = require("../database/connection.js")
 const expressJwt = require('express-jwt')
 const cpfCheck = require('cpf-check')
 const jwtMiddleWare = expressJwt({ secret: 'dragonball' })
+
 //================================MOSTRA TODOS CLIENTES COM RESERVA==========================================
 
 router.get('/', async (request, response) => {
