@@ -2,10 +2,10 @@
       <v-data-table :headers="headers" :items="menu" sort-by="name" class="elevation-1" dark >
         <template v-slot:top>
           <v-toolbar flat dark>
-            <v-toolbar-title >Lista de itens</v-toolbar-title>
+            <v-toolbar-title >Lista de Eventos</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Novo Item</v-btn>
+            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Novo Evento</v-btn>
 
             <v-dialog v-model="dialog" max-width="500px">
               <v-card>
@@ -20,16 +20,7 @@
                         <v-text-field required v-model="name" label="Nome"  ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="price" label="Preço" required></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="category" label="Categoria" required></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="description" label="Descrição" required></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="image" label="image" required ></v-text-field>
+                        <v-text-field v-model="image" label="Imagem" required></v-text-field>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -37,8 +28,8 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-3" text @click="close">Cancel</v-btn>
-                  <v-btn color="red darken-3" text @click="save">Save</v-btn>
+                  <v-btn color="#ff4081" text @click="close">Cancel</v-btn>
+                  <v-btn color="#ff4081" text @click="save">Save</v-btn>
                 </v-card-actions>
               </v-card>
 
@@ -48,7 +39,6 @@
 
         <template v-slot:item.action="{ item }">
           <div class="mx-2">
-            <v-icon small @click="editItem(item)" class="iconsList" color="indigo lighten-4">fas fa-edit</v-icon>
             <v-icon small @click="deleteItem(item)" class="iconsList" color="indigo lighten-4">fas fa-trash-alt</v-icon>
           </div> 
         </template>
@@ -70,9 +60,6 @@ export default {
     dialog: false,
     id: "",
     name: "",
-    price: "",
-    category: "",
-    description: "",
     image: "",
 
     itemsPerPageOptions: [10, 20, 30],
@@ -82,9 +69,7 @@ export default {
 
       { text: "id", value: "id", align: "left" },
       { text: "Nome", value: "name" },
-      { text: "Preço", value: "price" },
-      { text: "Categoria", value: "itemCategory" },
-      { text: "Descrição", value: "description" },
+      { text: "Imagem", value: "image" },
       { text: "Actions", value: "action", sortable: false }
 
     ],
@@ -97,19 +82,14 @@ export default {
 
       id: "",
       name: "",
-      price: "",
-      category: "",
-      description: "",
       image: ""
 
     },
 
     defaultItem: {
 
+      id: "",
       name: "",
-      price: "",
-      category: "",
-      description: "",
       image: ""
 
     },
@@ -121,7 +101,7 @@ export default {
   computed: {
 
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item"; // nao entendi isso aqui
+      return this.editedIndex === -1 ? "Novo Evento" : "Edit Item"; // nao entendi isso aqui
     }
 
   },
@@ -144,7 +124,7 @@ export default {
 
     initialize() {
       axios
-        .get("http://localhost:3000/menu/")
+        .get("http://localhost:3000/event/")
         .then(response => {
           this.menu = response.data.sucess;
         })
@@ -172,7 +152,7 @@ export default {
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
       confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1); 
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-      axios.delete(`http://localhost:3000/menu/${item.id}`);
+      axios.delete(`http://localhost:3000/event/${item.id}`);
 
     },
 
@@ -190,11 +170,8 @@ export default {
 
       if (this.saveOrEdit == 0) {
         axios
-          .post("http://localhost:3000/menu/", {
+          .post("http://localhost:3000/event/", {
             name: this.name,
-            price: this.price,
-            description: this.description,
-            category: this.category,
             image: this.image
           })
           .then(res => {
@@ -204,27 +181,6 @@ export default {
             console.log("deu certo");
           })
           .catch(e => {
-            console.log(e.response.data.error);
-          });
-      } else {
-        axios
-          .patch(`http://localhost:3000/menu/${this.editedIndex}`, {
-            name: this.name,
-            price: this.price,
-            description: this.description,
-            category: this.category,
-            image: this.image
-          })
-          .then(res => {
-            console.log("Item Alterado");
-            this.initialize();
-            this.message = res.data.sucess;
-            this.editedIndex = -1;
-            this.dialog = false;
-            this.saveOrEdit = 0;
-          })
-          .catch(e => {
-            console.log("Erro");
             console.log(e.response.data.error);
           });
       }

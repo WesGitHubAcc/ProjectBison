@@ -14,7 +14,8 @@
       v-for="(item,i) in items"
       :key="i"
       :src="item.src"
-    ></v-carousel-item>  
+    ></v-carousel-item> 
+     
     <img contain="true" id="logo" src="../assets/logo.png" height="100%">
   </v-carousel>
 </template>
@@ -25,13 +26,13 @@
       return {
         items: [
           {
-            src: 'https://pixelz.cc/wp-content/uploads/2018/08/hamburger-spicy-uhd-4k-wallpaper.jpg', 
+            src: 'https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80', 
           },
           {
-            src: 'https://www.faytogo.com/editable/templates/default/images/carousel-1.jpg',
+            src: 'https://images.unsplash.com/photo-1529604278261-8bfcdb00a7b9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80',
           },
           {
-            src: 'https://www.belushis.com/__data/assets/image/0008/501200/Belushis-Bar-Amsterdam-Interior-3.jpg',
+            src: 'https://images.unsplash.com/photo-1468072263885-69f67a2f57b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1266&q=80',
           },
         ],
       }

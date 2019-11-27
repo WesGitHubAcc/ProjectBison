@@ -1,11 +1,20 @@
 <template >
-      <v-data-table :headers="headers" :items="menu" sort-by="name" class="elevation-1" dark >
+      <v-data-table :headers="headers" :items="reserveCrud" sort-by="name" class="elevation-1" dark >
         <template v-slot:top>
           <v-toolbar flat dark>
-            <v-toolbar-title >Lista de itens</v-toolbar-title>
+            <v-toolbar-title >Lista de Reservas</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
             <v-spacer></v-spacer>
-            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Novo Item</v-btn>
+             <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="fas fa-search"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
+                <v-spacer></v-spacer>
+            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Nova Reserva</v-btn>
 
             <v-dialog v-model="dialog" max-width="500px">
               <v-card>
@@ -49,8 +58,8 @@
                             </template>
                             <v-date-picker v-model="date" no-title scrollable>
                                 <v-spacer></v-spacer>
-                                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                                <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                                <v-btn text color="#ff4081" @click="menu = false">Cancel</v-btn>
+                                <v-btn text color="#ff4081" @click="$refs.menu.save(date)">OK</v-btn>
                             </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -60,8 +69,8 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-3" text @click="close">Cancel</v-btn>
-                  <v-btn color="red darken-3" text @click="save">Save</v-btn>
+                  <v-btn color="#ff4081" text @click="close">Cancel</v-btn>
+                  <v-btn color="#ff4081" text @click="save">Save</v-btn>
                 </v-card-actions>
               </v-card>
 
@@ -89,7 +98,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
-
+    search: '',
     dialog: false,
 
     CPF: "",
@@ -98,6 +107,7 @@ export default {
     phone: "",
     amountPeoples: "",
     date: "",
+    menu: '',
 
     itemsPerPageOptions: [10, 20, 30],
     itemsPerPage: 10,
@@ -114,12 +124,13 @@ export default {
 
     ],
 
-    menu: [],
+    reserveCrud: [],
 
     editedIndex: -1,
 
     editedItem: {
-
+    
+    id: "",
     CPF: "",
     name: "",
     lastName: "",
@@ -131,6 +142,7 @@ export default {
 
     defaultItem: {
 
+    id: "",
     CPF: "",
     name: "",
     lastName: "",
@@ -147,7 +159,7 @@ export default {
   computed: {
 
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item"; // nao entendi isso aqui
+      return this.editedIndex === -1 ? "Nova Reserva" : "Alterar Reserva"; // nao entendi isso aqui
     }
 
   },
@@ -172,7 +184,7 @@ export default {
       axios
         .get("http://localhost:3000/reserve/")
         .then(response => {
-          this.menu = response.data.sucess;
+          this.reserveCrud = response.data.sucess;
         })
         .catch(e => {
           console.log(e.response.data.error);
@@ -180,7 +192,7 @@ export default {
     },
 
     editItem(item) {
-    
+        
         this.CPF = item.CPF;
         this.name = item.name;
         this.lastName = item.lastName;
@@ -195,11 +207,11 @@ export default {
 
     deleteItem(item) {
 
-      const index = this.menu.indexOf(item);
+      const index = this.reserveCrud.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
-      confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1); 
+      confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1); 
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-      axios.delete(`http://localhost:3000/menu/${item.id}`);
+      axios.delete(`http://localhost:3000/reserve/${item.id}`);
 
     },
 

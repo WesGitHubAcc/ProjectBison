@@ -37,8 +37,8 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="red darken-3" text @click="close">Cancel</v-btn>
-                  <v-btn color="red darken-3" text @click="save">Save</v-btn>
+                  <v-btn color="#ff4081" text @click="close">Cancel</v-btn>
+                  <v-btn color="#ff4081" text @click="save">Save</v-btn>
                 </v-card-actions>
               </v-card>
 
@@ -121,7 +121,7 @@ export default {
   computed: {
 
     formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item"; // nao entendi isso aqui
+      return this.editedIndex === -1 ? "Novo Item" : "Alterar Item"; // nao entendi isso aqui
     }
 
   },
@@ -161,6 +161,7 @@ export default {
       this.category = item.itemCategory;
       this.image = item.image;
       this.editedIndex = item.id;
+      
       this.dialog = true;
       this.saveOrEdit = 1;
 

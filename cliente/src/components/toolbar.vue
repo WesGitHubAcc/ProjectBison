@@ -8,7 +8,28 @@
         width = "100%"
         
     >
-      <v-toolbar-title id="tituloToolbar">BLACK BISON</v-toolbar-title>
+      <v-btn
+            href="https://www.facebook.com/blackbisonbr/"
+            class="mx-2"
+            dark
+            icon
+            target="resource window"
+          >
+            <v-icon size="24px">fab fa-facebook</v-icon>
+          </v-btn>
+          <v-btn
+            href="https://www.instagram.com/blackbisonbr/"
+            class="mx-2"
+            dark
+            icon
+            target="resource window"
+          >
+            <v-icon size="24px">fab fa-instagram</v-icon>
+          </v-btn>
+
+      <v-toolbar-title id="tituloToolbar">
+        
+      BLACK BISON</v-toolbar-title>
       
       <v-spacer ></v-spacer>
 

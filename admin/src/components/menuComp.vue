@@ -1,5 +1,6 @@
 <template>
-  <v-content>
+
+  <v-content >
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
         <!-- Aqui em router link eu coloco o nome da rota q eu quero, quando ele clicar já vai pra rota-->
@@ -62,17 +63,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .iconsMenu {
   margin: 5px;
 }
 
 .headerMenu {
+  text-align: center;
+  align-items: center;
+  
   text-decoration: none;
   color: white;
 }
 
 .iconsList {
-  padding: 3px;
+  
+  padding: 5px;
+}
+
+.v-list-item v-list-item--link theme--dark{
+  align-items: center;
 }
 </style>

@@ -3,7 +3,6 @@
 
    <menuComp></menuComp>
     <v-content>
-      
       <v-container
         class="fill-height"
         fluid
@@ -12,9 +11,7 @@
           align="center"
           justify="center"
         >
-             <!--Aqui renderiza o componente da rota-->
-       <router-view></router-view>
-     
+          <router-view></router-view>
         </v-row>
       </v-container>
     </v-content>
@@ -50,6 +47,10 @@
 </script>
 
 <style>
+
+.v-data-table{
+  width: 80vw;
+}
  
 </style>
 

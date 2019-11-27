@@ -20,7 +20,7 @@
             justify="center"
           >
           <img :src="slide.image"
-          contain="true" >
+          contain=true >
           </v-row>
       </v-sheet>
       </v-carousel-item>
@@ -42,7 +42,8 @@ import axios from 'axios'
 </script>
 
 <style scoped>
-  #backgoundImage{
-    background-color: black;
-  }  
+  .theme--dark.v-sheet{
+    background-image: url(https://images.unsplash.com/photo-1513491714241-33805f8ff175?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+  background-size: cover;
+  } 
 </style>

@@ -18,6 +18,7 @@
             class="mx-4"
             dark
             icon
+            target="resource window"
           >
             <v-icon size="24px">fab fa-facebook</v-icon>
           </v-btn>
@@ -26,13 +27,22 @@
             class="mx-4"
             dark
             icon
+            target="resource window"
           >
             <v-icon size="24px">fab fa-instagram</v-icon>
           </v-btn>
         </v-card-title>
   
         <v-card-text class="py-2 white--text text-center">
-          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+          <div id="info">
+          {{ new Date().getFullYear() }} — <strong>Black Bison</strong>
+          <p>
+          R. Felix Xavier da Cunha, 555 - Centro<br>
+          Pelotas RS, 96010-000<br>
+          elefone: (53) 99710-4482<br>
+          Aberto de 19:00 ás 02:00
+          </p> 
+          </div>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -49,7 +59,11 @@
   <style scoped>
   
   #topo{
-      background-color:#a52a2a;
+      background-color:brown;
   }
 
+  #info{
+    text-align: right;
+    padding: 1vw;
+  }
   </style>

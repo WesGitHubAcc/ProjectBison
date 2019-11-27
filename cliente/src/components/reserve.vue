@@ -46,15 +46,15 @@
                   :return-value.sync="date"
                   transition="scale-transition"
                   offset-y
-                  min-width="290px"
+                  min-width="500px"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field label="Data" readonly v-on="on" v-model="date"></v-text-field>
                   </template>
                   <v-date-picker v-model="date" no-title scrollable>
                     <v-spacer></v-spacer>
-                    <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                    <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                    <v-btn text color="#E57373" @click="menu = false">Cancel</v-btn>
+                    <v-btn text color="#E57373" @click="$refs.menu.save(date)">OK</v-btn>
                   </v-date-picker>
                 </v-menu>
               </v-col>
@@ -67,15 +67,15 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="reserva = false">Sair</v-btn>
-          <v-btn color="blue darken-1" text @click="reserve">Salvar</v-btn>
+          <v-btn color="#E57373" text @click="reserva = false">Sair</v-btn>
+          <v-btn color="#E57373" text @click="reserve">Salvar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!--============================CONSULTA RESERVA================================-->
 
-    <v-dialog v-model="consulta" persistent max-width="600px">
+    <v-dialog v-model="consulta" persistent max-width="800px">
       <template v-slot:activator="{ on }">
         <v-btn
           color="#a52a2a"
@@ -103,8 +103,8 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="consulta = false">Sair</v-btn>
-          <v-btn color="blue darken-1" text @click="consulta = false">Consultar</v-btn>
+          <v-btn color="#E57373" text @click="consulta = false">Sair</v-btn>
+          <v-btn color="#E57373" text @click="consulta = false">Consultar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -152,9 +152,12 @@ import axios from "axios"
   
 </script>
 
-<style>
+<style scoped>
 #background {
-  margin: 10vh 0;
+  align-items: center;
+  height: 30vh;
+  background-image: url(https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1571&q=80);
+  background-size: cover;
 }
 </style>
 
