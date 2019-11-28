@@ -140,8 +140,7 @@ export default {
       var reader = new FileReader();
       reader.onloadend = ()=> {
         console.log("RESULT", reader.result);
-        this.imageBase64 = reader.res
-
+        this.imageBase64 = reader.result
       };
       reader.readAsDataURL(file);
     }
