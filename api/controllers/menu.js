@@ -66,6 +66,7 @@ router.patch('/:id', async (request, response) => {
     const idItem = request.params.id;
     const { name, price, category, description, image } = request.body
 
+
     selectUserID = 'SELECT id FROM item WHERE id = ?'
 
     const items = await database.all(selectUserID, idItem)

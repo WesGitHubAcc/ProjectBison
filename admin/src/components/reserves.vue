@@ -85,10 +85,23 @@
           </div> 
         </template>
 
+        <v-row>
+          <v-col>
+            <div class="text-center">
+              <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
+                {{ message }}
+                <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
+              </v-snackbar>
+            </div>
+          </v-col>
+        </v-row>
+
         <template v-slot:no-data>
           <v-btn color="primary" @click="initialize">Reset</v-btn>
         </template>
       </v-data-table>
+
+      
 </template>
 
 
@@ -100,7 +113,13 @@ export default {
   data: () => ({
     search: '',
     dialog: false,
+    
+    message: "",
+    timeout: 2000,
+    snackbar: false,
+    color: "",
 
+    id: "",
     CPF: "",
     name: "",
     lastName: "",
@@ -113,8 +132,8 @@ export default {
     itemsPerPage: 10,
 
     headers: [
-
-      { text: "CPF", value: "CPF", align: "left" },
+ 
+      { text: "CPF", value: "CPF" },
       { text: "Nome", value: "name" },
       { text: "Sobrenome", value: "lastName" },
       { text: "Telefone", value: "phone" },
@@ -142,7 +161,6 @@ export default {
 
     defaultItem: {
 
-    id: "",
     CPF: "",
     name: "",
     lastName: "",
@@ -192,13 +210,14 @@ export default {
     },
 
     editItem(item) {
-        
+
         this.CPF = item.CPF;
         this.name = item.name;
         this.lastName = item.lastName;
         this.phone = item.phone;
         this.amountPeoples = item.amountPeoples;
         this.date = item.date;
+        this.editedIndex = item.id;
 
         this.dialog = true;
         this.saveOrEdit = 1;
@@ -212,7 +231,6 @@ export default {
       confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1); 
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
       axios.delete(`http://localhost:3000/reserve/${item.id}`);
-
     },
 
     close() {
@@ -241,7 +259,9 @@ export default {
             this.dialog = false;
             this.initialize();
             this.message = res.data.sucess;
-            console.log("deu certo");
+            console.log(this.message)
+            this.snackbar = true;
+            this.color = "green"
           })
           .catch(e => {
             console.log(e.response.data.error);
@@ -249,6 +269,7 @@ export default {
       } else {
         axios
           .patch(`http://localhost:3000/reserve/${this.editedIndex}`, {
+          
             CPF: this.CPF,
             name: this.name,
             lastName: this.lastName,
@@ -260,12 +281,13 @@ export default {
             console.log("Item Alterado");
             this.initialize();
             this.message = res.data.sucess;
+            
             this.editedIndex = -1;
-            this.dialog = false;
             this.saveOrEdit = 0;
+            this.dialog = false;
+            
           })
           .catch(e => {
-            console.log("Erro");
             console.log(e.response.data.error);
           });
       }

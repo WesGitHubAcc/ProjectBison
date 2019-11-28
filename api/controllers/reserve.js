@@ -56,15 +56,17 @@ router.post('/', async (request, response) => {
         const row = await database.get(selectReserve, [CPF, date])
         if (row !== undefined) {
             response.status(400).json({ sucess: false, error: 'Ja existe uma reserva nesta data' })
-        }
-        try {
+        }else{
+           try {
             const insertReserve = 'INSERT INTO reserve (CPF, name,  lastName, phone , amountPeoples, date) VALUES (?,?,?,?,?,?)'
             await database.run(insertReserve, [CPF, name, lastName, phone, amountPeoples, date])
 
             response.status(200).json({ sucess: 'Reserva realizada com sucesso!', error: false })
-        } catch (e) {
+            } catch (e) {
             response.status(404).json({ sucess: false, error: "Não foi possivel cadastrar" })
+            } 
         }
+        
     } else
         response.status(400).json({ sucess: false, error: 'Campos nao preenchidos' })
 })
@@ -75,12 +77,8 @@ router.delete('/:id', async (request, response) => {
 
     const idReserve = request.params.id
 
-    const selectReserveID = 'SELECT CPF FROM reserve WHERE id = ?'
-    const rows = database.all(selectReserveID, idReserve)
-
-
-    if (rows.length == undefined)
-        response.status(404).json({ sucess: false, error: 'Nenhuma reserva neste cpf' })
+    if (idReserve == undefined)
+        response.status(404).json({ sucess: false, error: 'Nenhuma reserva encontrada' })
     try {
         const deleteReserve = 'DELETE FROM reserve WHERE id = ?'
         await database.run(deleteReserve, idReserve)
@@ -94,13 +92,15 @@ router.delete('/:id', async (request, response) => {
 
 //================================EDITA RESERVA DO CLIENTE PELO CPF==========================================
 
-router.patch('/', async (request, response) => {
+router.patch('/:id', async (request, response) => {
 
+    const idReserve = request.params.id;
     const { CPF, name, lastName, phone, amountPeoples, date } = request.body
 
-    selectReserveID = 'SELECT CPF FROM reserve WHERE CPF = ?'
-
-    const reserves = await database.get(selectReserveID, [CPF])
+    selectReserveID = 'SELECT * FROM reserve WHERE id = ? AND CPF = ?'
+    
+    const reserves = await database.all(selectReserveID, idReserve, [CPF])
+    
 
     if (reserves == undefined) {
         response.status(404).json({ sucess: false, error: 'Usuario não existe' })
@@ -112,8 +112,8 @@ router.patch('/', async (request, response) => {
         response.status(404).json({ sucess: false, error: 'Preencha os campos' })
     }
     try {
-        const updateReserve = 'UPDATE reserve SET name = ?, lastName = ?, phone = ?, amountPeoples = ?, date = ? WHERE CPF = ?'
-        await database.run(updateReserve, [name, lastName, phone, amountPeoples, date, reserves.CPF])
+        const updateReserve = 'UPDATE reserve SET CPF = ?, name = ?, lastName = ?, phone = ?, amountPeoples = ?, date = ? WHERE id = ?'
+        await database.run(updateReserve, [CPF, name, lastName, phone, amountPeoples, date, idReserve])
         response.status(200).json({ sucess: "Nome alterado!" })
     }
     catch (error) {

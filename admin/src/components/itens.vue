@@ -68,6 +68,7 @@ export default {
   data: () => ({
 
     dialog: false,
+    
     id: "",
     name: "",
     price: "",
@@ -210,6 +211,7 @@ export default {
       } else {
         axios
           .patch(`http://localhost:3000/menu/${this.editedIndex}`, {
+
             name: this.name,
             price: this.price,
             description: this.description,
@@ -220,12 +222,12 @@ export default {
             console.log("Item Alterado");
             this.initialize();
             this.message = res.data.sucess;
+
             this.editedIndex = -1;
-            this.dialog = false;
             this.saveOrEdit = 0;
+            this.dialog = false;
           })
           .catch(e => {
-            console.log("Erro");
             console.log(e.response.data.error);
           });
       }
