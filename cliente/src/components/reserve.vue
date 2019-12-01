@@ -71,8 +71,15 @@
           <v-btn color="#E57373" text @click="reserve">Salvar</v-btn>
         </v-card-actions>
       </v-card>
+      
     </v-dialog>
-
+    
+    <div class="text-center">
+        <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
+            {{ message }}
+            <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
+        </v-snackbar>
+    </div>
     <!--============================CONSULTA RESERVA================================-->
 
     <v-dialog v-model="consulta" persistent max-width="800px">
@@ -107,6 +114,7 @@
           <v-btn color="#E57373" text @click="consulta = false">Consultar</v-btn>
         </v-card-actions>
       </v-card>
+      
     </v-dialog>
   </v-row>
 </template>
@@ -116,15 +124,22 @@ import axios from "axios"
 
   export default {
     data: () => ({
+
       reserva: false,
       consulta: false,
+
       CPF: "",
       name: "",
       lastName: "",
       phone: "",
       amountPeoples: "",
       date: "",
-      menu: ''
+      menu: '',
+
+      message: '',
+      timeout: 2000,
+      snackbar: false,
+      color: '',
     }),
 
     methods: {
@@ -139,11 +154,16 @@ import axios from "axios"
         })
         .then( res => {
           this.reserva = false
-          this.message = res.response.data
-          
+          this.message = res.data.sucess
+          this.snackbar = true   
+          this.color="green"      
         })
         .catch((e) => {
           console.log(e.response.data.error)
+          this.snackbar = true
+          this.message = e.response.data.error
+          this.color="red"
+          
         })
      
       }

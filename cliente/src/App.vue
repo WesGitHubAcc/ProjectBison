@@ -23,6 +23,8 @@ import cMaps from './components/maps.vue'
 import cFooter from './components/footer.vue'
 
 export default {
+
+
   name: 'client',
   components: {
     cToolbar,
@@ -32,7 +34,7 @@ export default {
     cMenu,
     cReserve,
     cMaps,
-    cFooter
+    cFooter,
   }
 }
 </script>

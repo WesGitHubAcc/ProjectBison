@@ -40,16 +40,16 @@
               <v-btn color="#ff4081" text @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
+        </v-dialog>
 
-              <div class="text-center">
+        
+      </v-toolbar>
+      <div class="text-center">
                 <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
                   {{ message }}
                   <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
                 </v-snackbar>
-              </div>
-
-        </v-dialog>
-      </v-toolbar>
+        </div>
     </template>
 
     <template v-slot:item.action="{ item }">
@@ -77,7 +77,7 @@ export default {
     dialog: false,
 
     message: '',
-    timeout: 2000,
+    timeout: 3000,
     snackbar: false,
     color: '',
 
@@ -91,6 +91,10 @@ export default {
 
     itemsPerPage: 10,
 
+    saveOrEdit: 0,
+    editedIndex: -1,
+    menu: [],
+
     headers: [
       { text: "id", value: "id", align: "left" },
       { text: "Nome", value: "name" },
@@ -99,10 +103,6 @@ export default {
       { text: "Descrição", value: "description" },
       { text: "Ações", value: "action", sortable: false }
     ],
-
-    menu: [],
-
-    editedIndex: -1,
 
     editedItem: {
       id: "",
@@ -119,10 +119,7 @@ export default {
       category: "",
       description: "",
       image: "",
-    },
-
-    saveOrEdit: 0
-    
+    }, 
   }),
 
   computed: {
@@ -134,9 +131,9 @@ export default {
   watch: {
     dialog(val) {
       val || this.close();
-    },
+  },
 
-    image(val) {
+  image(val) {
       var file = val;
       var reader = new FileReader();
       reader.onloadend = ()=> {
@@ -187,9 +184,25 @@ export default {
     deleteItem(item) {
       const index = this.menu.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
-      confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1);
+      const condition = confirm("Voce tem certeza que deseja apagar este item?") && this.menu.splice(index, 1);
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-      axios.delete(`http://localhost:3000/menu/${item.id}`);
+      if(condition){
+        axios
+          .delete(`http://localhost:3000/menu/${item.id}`)
+          .then(res => {
+            this.message = res.data.sucess;
+            this.color="green"
+            this.snackbar = true; 
+          })
+          .catch(e => {
+            console.log(e.response.data.error);
+            this.message = e.response.data.error;
+            this.color="green"
+            this.snackbar = true; 
+          });
+      }else{
+        console.log("cancelado")
+      } 
     },
 
     save() {
@@ -203,7 +216,6 @@ export default {
             image: this.imageBase64
           })
           .then(res => {
-           
             this.message = res.data.sucess;
             this.snackbar = true;
             this.color="green" 
@@ -226,11 +238,13 @@ export default {
           })
           .then(res => {
             console.log("Item Alterado");
-            this.initialize();
-            this.message = res.data.sucess;
+            this.dialog = false;
             this.editedIndex = -1;
             this.saveOrEdit = 0;
-            this.dialog = false;
+            this.initialize();
+            this.message = res.data.sucess;
+            this.color="green"
+            this.snackbar = true;
           })
           .catch(e => {
             console.log(e.response.data.error);

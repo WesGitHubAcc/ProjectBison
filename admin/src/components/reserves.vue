@@ -73,15 +73,16 @@
                 </v-card-actions>   
               </v-card>
 
-              <div class="text-center">
+              
+
+            </v-dialog>
+          </v-toolbar>
+          <div class="text-center">
                 <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
                   {{ message }}
                   <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
                 </v-snackbar>
               </div>
-
-            </v-dialog>
-          </v-toolbar>
         </template>
 
         <template v-slot:item.action="{ item }">
@@ -96,9 +97,7 @@
         </template>
       </v-data-table>
 
-      
 </template>
-
 
 <script>
 
@@ -220,12 +219,26 @@ export default {
     },
 
     deleteItem(item) {
-
       const index = this.reserveCrud.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
-      confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1); 
+      const condition = confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1);
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-      axios.delete(`http://localhost:3000/reserve/${item.id}`);
+      if(condition){
+        axios
+          .delete(`http://localhost:3000/reserve/${item.id}`)
+          .then(res => {
+            this.message = res.data.sucess;
+            this.color="green"
+            this.snackbar = true;
+          })
+          .catch(e => {
+            this.message = e.response.data.error;
+            this.color="red"
+            this.snackbar = true;
+          });
+      }else{
+        console.log("cancelado")
+      } 
     },
 
     close() {
@@ -251,8 +264,10 @@ export default {
             date: this.date,
           })
           .then(res => {
-            this.dialog = false;
+            this.dialog = false
             this.message = res.data.sucess;
+            this.snackbar = true;
+            this.color="green" 
             this.initialize();
           })
           .catch(e => {
@@ -274,14 +289,16 @@ export default {
           })
           .then(res => {
             console.log("Item Alterado");
+            this.dialog = false;
+            this.saveOrEdit = 0;
             this.initialize();
             this.message = res.data.sucess;
-            this.saveOrEdit = 0;
-            this.dialog = false;
+            this.color="green"
+            this.snackbar = true;
             
           })
           .catch(e => {
-                        this.message = e.response.data.error;
+            this.message = e.response.data.error;
             this.snackbar = true;
             this.color = "red"
           });
