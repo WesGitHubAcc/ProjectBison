@@ -35,7 +35,7 @@ router.get('/:id', (request, response) => {
         database.all(selectReserveID, idReserve, (error, row) => {
 
             if (error)
-                response.status(404).json({ sucess: false, error: error.message })
+                response.status(404).json({ sucess: false, error: "Não foi encontrado" })
             else
                 response.status(200).json({ sucess: row, error: false })
         })
@@ -52,10 +52,9 @@ router.post('/', async (request, response) => {
 
         const selectReserve = 'SELECT date FROM reserve WHERE CPF = ? AND date = ?'
 
-
         const row = await database.get(selectReserve, [CPF, date])
         if (row !== undefined) {
-            response.status(400).json({ sucess: false, error: 'Ja existe uma reserva nesta data' })
+            response.status(400).json({ sucess: false, error: 'Ja existe uma reserva com este CPF nesta data' })
         }else{
            try {
             const insertReserve = 'INSERT INTO reserve (CPF, name,  lastName, phone , amountPeoples, date) VALUES (?,?,?,?,?,?)'

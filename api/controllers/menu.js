@@ -26,17 +26,19 @@ router.post('/', async (request, response) => {
     
     if (!name || !price || !category || !description || !image) {
         response.status(400).json({ sucess: false, error: 'Dados informados incorretamente!' })
+    }else{
+        const insertItem = 'INSERT INTO item (name, price, itemCategory, description, image) VALUES (?, ?, ?, ?, ?)'
+
+        try {
+            await database.run(insertItem, [name, price, category, description, image])
+            response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false })
+
+        } catch (error) {
+            response.status(400).json({ sucess: false, error: "Não foi possivel cadastrar" })
+        }
     }
 
-    const insertItem = 'INSERT INTO item (name, price, itemCategory, description, image) VALUES (?, ?, ?, ?, ?)'
-
-    try {
-        await database.run(insertItem, [name, price, category, description, image])
-        response.status(201).json({ sucess: 'Dados inseridos com sucesso!', error: false })
-
-    } catch (error) {
-        response.status(400).json({ sucess: false, error: "Não foi possivel cadastrar" })
-    }
+    
 
 })
 
@@ -48,14 +50,16 @@ router.delete('/:id', async (request, response) => {
 
     if (idItem === undefined) {
         response.status(404).json({ sucess: false, error: 'ID informado inexistente!' })
+    }else{
+        const deleteItem = 'DELETE FROM item WHERE id = ?'
+        try {
+            await database.run(deleteItem, [idItem])
+            response.status(200).json({ sucess: 'Item deletado com sucesso!', error: false })
+        } catch (error) {
+            response.status(400).json({ sucess: false, error: "Não foi possivel deletar" })
+        }
     }
-    const deleteItem = 'DELETE FROM item WHERE id = ?'
-    try {
-        await database.run(deleteItem, [idItem])
-        response.status(200).json({ sucess: 'Item deletado com sucesso!', error: false })
-    } catch (error) {
-        response.status(400).json({ sucess: false, error: "Não foi possivel deletar" })
-    }
+    
 
 })
 
@@ -75,7 +79,7 @@ router.patch('/:id', async (request, response) => {
         response.status(404).json({ sucess: false, error: 'item não existe' })
     }
     if (!name || !price || !category || !description || !image) {
-        response.status(400).json({ sucess: false, error: error.message })
+        response.status(400).json({ sucess: false, error: "campos nao foram preenchido corretamente" })
     }
     const updateItem = 'UPDATE item SET name = ?, price = ?, itemCategory = ?, description = ?, image = ? WHERE id = ?'
 

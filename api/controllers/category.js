@@ -25,6 +25,17 @@ router.get('/:id', async (request, response) => {
         response.status(404).send({ sucess: false, error: "erro!" })
 })
 
+//===================================MOSTRA AS CATEGORIA SELECIONADA============================
+
+router.get("/", async (request, response) => {
+    const selectCategory = 'SELECT id FROM category'
+
+    const category = await database.all(selectCategory)
+    if (category === undefined) {
+        response.status(404).json({ sucess: false, error: "Campos vazios!" })
+    }
+    response.status(200).json({ sucess: items, error: false })
+})
 //===========================================CADASTRA CATEGORIA===============================================
 
 router.post('/', async (request, response) => {

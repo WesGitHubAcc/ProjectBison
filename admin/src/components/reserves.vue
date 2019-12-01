@@ -1,5 +1,5 @@
 <template >
-      <v-data-table :headers="headers" :items="reserveCrud" sort-by="name" class="elevation-1" dark >
+      <v-data-table :headers="headers" :items="reserveCrud" sort-by="name" :search="search" class="elevation-1" dark >
         <template v-slot:top>
           <v-toolbar flat dark>
             <v-toolbar-title >Lista de Reservas</v-toolbar-title>
@@ -71,8 +71,15 @@
                   <v-spacer></v-spacer>
                   <v-btn color="#ff4081" text @click="close">Cancel</v-btn>
                   <v-btn color="#ff4081" text @click="save">Save</v-btn>
-                </v-card-actions>
+                </v-card-actions>   
               </v-card>
+
+              <div class="text-center">
+                <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
+                  {{ message }}
+                  <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
+                </v-snackbar>
+              </div>
 
             </v-dialog>
           </v-toolbar>
@@ -84,17 +91,6 @@
             <v-icon small @click="deleteItem(item)" class="iconsList" color="indigo lighten-4">fas fa-trash-alt</v-icon>
           </div> 
         </template>
-
-        <v-row>
-          <v-col>
-            <div class="text-center">
-              <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
-                {{ message }}
-                <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
-              </v-snackbar>
-            </div>
-          </v-col>
-        </v-row>
 
         <template v-slot:no-data>
           <v-btn color="primary" @click="initialize">Reset</v-btn>
@@ -114,10 +110,10 @@ export default {
     search: '',
     dialog: false,
     
-    message: "",
-    timeout: 2000,
+    message: '',
+    timeout: 3000,
     snackbar: false,
-    color: "",
+    color: '',
 
     id: "",
     CPF: "",
@@ -257,14 +253,13 @@ export default {
           })
           .then(res => {
             this.dialog = false;
-            this.initialize();
             this.message = res.data.sucess;
-            console.log(this.message)
-            this.snackbar = true;
-            this.color = "green"
+            this.initialize();
           })
           .catch(e => {
-            console.log(e.response.data.error);
+            this.message = e.response.data.error;
+            this.snackbar = true;
+            this.color = "red"
           });
       } else {
         axios
@@ -276,6 +271,7 @@ export default {
             phone: this.phone,
             amountPeoples: this.amountPeoples,
             date: this.date,
+
           })
           .then(res => {
             console.log("Item Alterado");
@@ -288,7 +284,9 @@ export default {
             
           })
           .catch(e => {
-            console.log(e.response.data.error);
+            this.message = e.response.data.error;
+            this.snackbar = true;
+            this.color = "red"
           });
       }
     }

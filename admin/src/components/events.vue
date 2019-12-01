@@ -20,7 +20,7 @@
                         <v-text-field required v-model="name" label="Nome"  ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
-                        <v-text-field v-model="image" label="Imagem" required></v-text-field>
+                        <v-file-input label="Imagem" accept="image/*" v-model="image"></v-file-input>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -60,7 +60,8 @@ export default {
     dialog: false,
     id: "",
     name: "",
-    image: "",
+    image: [],
+    imageBase64: "",
 
     itemsPerPageOptions: [10, 20, 30],
     itemsPerPage: 10,
@@ -70,7 +71,7 @@ export default {
       { text: "id", value: "id", align: "left" },
       { text: "Nome", value: "name" },
       { text: "Imagem", value: "image" },
-      { text: "Actions", value: "action", sortable: false }
+      { text: "Ações", value: "action", sortable: false }
 
     ],
 
@@ -110,8 +111,17 @@ export default {
 
     dialog(val) {
       val || this.close();
-    }
+    },
 
+  image(val) {
+      var file = val;
+      var reader = new FileReader();
+      reader.onloadend = ()=> {
+        console.log("RESULT", reader.result);
+        this.imageBase64 = reader.result
+      };
+      reader.readAsDataURL(file);
+    }
   },
 
   created() {
@@ -172,7 +182,7 @@ export default {
         axios
           .post("http://localhost:3000/event/", {
             name: this.name,
-            image: this.image
+            image: this.imageBase64
           })
           .then(res => {
             this.dialog = false;

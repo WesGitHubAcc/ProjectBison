@@ -78,13 +78,13 @@
                 width="500"
               >
                 <template v-slot:activator="{ on }">
-                            <v-img
-                        :src="item.image"
-                        aspect-ratio="1"
-                        class="d-block pa-2"
-                        max-width="200"
-                        max-height="200"
-                        contain
+                    <v-img
+                      :src="item.image"
+                      aspect-ratio="1"
+                      class="d-block pa-2"
+                      max-width="200"
+                      max-height="200"
+                      contain
                     ></v-img>
 
                   <v-btn
