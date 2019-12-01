@@ -89,7 +89,6 @@ export default {
     image: [],
     imageBase64: "",
 
-    itemsPerPageOptions: [10, 20, 30],
     itemsPerPage: 10,
 
     headers: [
@@ -111,7 +110,7 @@ export default {
       price: "",
       category: "",
       description: "",
-      image: ""
+      image: "",
     },
 
     defaultItem: {
@@ -119,7 +118,7 @@ export default {
       price: "",
       category: "",
       description: "",
-      image: ""
+      image: "",
     },
 
     saveOrEdit: 0

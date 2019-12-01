@@ -4,7 +4,6 @@
           <v-toolbar flat dark>
             <v-toolbar-title >Lista de Reservas</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
-            <v-spacer></v-spacer>
              <v-spacer></v-spacer>
                 <v-text-field
                   v-model="search"
@@ -277,14 +276,12 @@ export default {
             console.log("Item Alterado");
             this.initialize();
             this.message = res.data.sucess;
-            
-            this.editedIndex = -1;
             this.saveOrEdit = 0;
             this.dialog = false;
             
           })
           .catch(e => {
-            this.message = e.response.data.error;
+                        this.message = e.response.data.error;
             this.snackbar = true;
             this.color = "red"
           });
