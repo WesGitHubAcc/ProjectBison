@@ -73,7 +73,7 @@
       </v-card>
       
     </v-dialog>
-    
+
     <div class="text-center">
         <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
             {{ message }}
@@ -100,9 +100,13 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Digite aqui o cpf" required></v-text-field>
+              <v-col cols="12" sm="6" md="10">
+                <v-text-field label="Digite aqui o CPF para consultar sua reserva"  v-model="CPF" required></v-text-field>
               </v-col>
+            </v-row>
+            <v-row>
+              {{statusReserve.name}}
+              {{statusReserve.date}}
             </v-row>
           </v-container>
           <small>*Regras da Reserva</small>
@@ -111,7 +115,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="#E57373" text @click="consulta = false">Sair</v-btn>
-          <v-btn color="#E57373" text @click="consulta = false">Consultar</v-btn>
+          <v-btn color="#E57373" text @click="query">Consultar</v-btn>
         </v-card-actions>
       </v-card>
       
@@ -127,6 +131,8 @@ import axios from "axios"
 
       reserva: false,
       consulta: false,
+
+      statusReserve: "",
 
       CPF: "",
       name: "",
@@ -144,29 +150,49 @@ import axios from "axios"
 
     methods: {
       reserve(){
-        axios.post('http://localhost:3000/reserve/', {
-          CPF: this.CPF,
-          name: this.name,
-          lastName: this.lastName,
-          phone: this.phone,
-          amountPeoples: this.amountPeoples,
-          date: this.date
-        })
-        .then( res => {
-          this.reserva = false
-          this.message = res.data.sucess
-          this.snackbar = true   
-          this.color="green"      
-        })
-        .catch((e) => {
-          console.log(e.response.data.error)
-          this.snackbar = true
-          this.message = e.response.data.error
-          this.color="red"
-          
-        })
-     
-      }
+        axios
+          .post('http://localhost:3000/reserve/', {
+            CPF: this.CPF,
+            name: this.name,
+            lastName: this.lastName,
+            phone: this.phone,
+            amountPeoples: this.amountPeoples,
+            date: this.date
+          })
+          .then( res => {
+            this.reserva = false
+            this.message = res.data.sucess
+            this.snackbar = true   
+            this.color="green"      
+          })
+          .catch((e) => {
+            console.log(e.response.data.error)
+            this.snackbar = true
+            this.message = e.response.data.error
+            this.color="red"
+          })
+        },
+
+      query(){
+        axios
+          .post('http://localhost:3000/reserve/query/', {
+            CPF: this.CPF
+          })
+          .then( res => {
+            this.statusReserve = res.data.sucess
+            this.reserva = false
+            this.message = res.data.sucess
+            this.snackbar = true   
+            this.color="green"      
+          })
+          .catch((e) => {
+            console.log(e.response.data.error)
+            this.snackbar = true
+            this.message = e.response.data.error
+            this.color="red"
+          })
+        },
+      
     }
   }
   
