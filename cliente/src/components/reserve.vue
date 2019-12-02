@@ -175,9 +175,7 @@ import axios from "axios"
 
       query(){
         axios
-          .post('http://localhost:3000/reserve/query/', {
-            CPF: this.CPF
-          })
+          .post('http://localhost:3000/reserve/query/',)
           .then( res => {
             this.statusReserve = res.data.sucess
             this.reserva = false
