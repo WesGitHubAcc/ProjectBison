@@ -35,7 +35,7 @@
     </v-tabs>
 
     <v-sheet class="mx-auto" elevation="8" width="100%">
-      <v-slide-group v-model="model" class="pa-1" show-arrows>
+      <v-slide-group v-model="model" class="pa-1" show-arrows center-active>
         <v-slide-item v-for="item in itens" :key="item.id" v-slot:default="{ active, toggle }">
           <v-card
             :color="active ? 'grey lighten-5' : 'grey lighten-5'"
@@ -72,7 +72,7 @@
             <v-card-title
               class="headline grey lighten-2"
               primary-title
-            >Detalhes de {{cardSelected.name}}</v-card-title>
+            >{{cardSelected.name}}</v-card-title>
 
             <v-card-text>
               <br />
