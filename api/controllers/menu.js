@@ -60,9 +60,27 @@ router.delete('/:id', async (request, response) => {
         }
     }
     
-
 })
 
+//======================================LISTA ITENS DO MENU PELO ID=========================================
+
+router.get('/:id', async (request, response) => {
+
+    const idItem = request.params.id
+
+    if (idItem === undefined) {
+        response.status(404).json({ sucess: false, error: 'ID informado inexistente!' })
+    }else{
+        const selectItem = 'SELECT * FROM item WHERE id = ?'
+        try {
+            const row = await database.all(selectItem, [idItem])
+            response.status(200).json({ sucess: row, error: false })
+        } catch (error) {
+            response.status(400).json({ sucess: false, error: "Não retornou nada" })
+        }
+    }
+    
+})
 //=======================================EDITA ITENS DO MENU PELO ID=========================================
 
 router.patch('/:id', async (request, response) => {

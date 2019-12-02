@@ -64,7 +64,6 @@
             height="300 "
             width="250"
             @click="toggle"
-            
           >
 
           <v-row
@@ -90,6 +89,7 @@
                   <v-btn
                     color="red lighten-2"
                     dark
+                    @click="showDetails(item)"
                     v-on="on"
                     outlined
                     class="mx-1"
@@ -97,21 +97,22 @@
                     + Detalhes
                   </v-btn>
                 </template>
-
+<!------------------------------------------------------------------------------>
                 <v-card>
                   <v-card-title
                     class="headline grey lighten-2"
                     primary-title
                   >
-                    Detalhes de {{item.name}}
+                    Detalhes de {{cardSelected.name}}
                   </v-card-title>
-
+                  
                   <v-card-text>
                     <br>
                     <p>
-                    Nome: {{item.name}}<br>
-                    Preço: {{item.price}}$<br>
-                    Descrição: {{item.description}}
+                      
+                    Nome: {{cardSelected.name}}<br>
+                    Preço: {{cardSelected.price}}$<br>
+                    Descrição: {{cardSelected.description}}
                     </p>
                   </v-card-text>
 
@@ -128,7 +129,10 @@
                     </v-btn>
                   </v-card-actions>
                 </v-card>
+<!------------------------------------------------------------------------------>
+
               </v-dialog>
+              
             </div>
           </v-row>
         </v-card>
@@ -147,6 +151,9 @@ export default {
     tab: null,
     model: null,
     dialog: false,
+    cardSelected: []
+
+    
   }),
       methods: {
         burguers(){
@@ -179,7 +186,22 @@ export default {
               .get(`http://localhost:3000/category/${6}`)
               .then(res => this.itens = res.data.sucess)
         },
+
+        showDetails(item){
+          axios
+              .get(`http://localhost:3000/menu/${item.id}`)
+              .then(res => {
+                this.cardSelected = res.data.sucess
+                this.dialog = true
+                
+              })
+              .catch(e => {
+                console.log(e.response.data.error)
+              })
+              
+        }
       }
+
 }
 </script>
 
