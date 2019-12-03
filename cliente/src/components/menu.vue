@@ -40,45 +40,44 @@
           <v-card
             :color="active ? 'grey lighten-5' : 'grey lighten-5'"
             class="ma-1"
-            height="300"
-            width="250"
+            max-width="344"
+            min-width="300"
             @click="toggle"
           >
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="text-center">
-                <v-img
-                  :src="item.image"
-                  aspect-ratio="1"
-                  class="d-block pa-2"
-                  max-width="200"
-                  max-height="200"
-                  contain
-                ></v-img>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="headline">{{item.name}}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
 
-                <v-btn
-                  color="red lighten-2"
-                  dark
-                  @click="showDetails(item)"
-                  outlined
-                  class="mx-1"
-                >+ Detalhes</v-btn>
-              </div>
-            </v-row>
+            <v-img
+              :src="item.image"
+              aspect-ratio="1"
+              max-width="200"
+              max-height="200"
+              contain
+              class="mx-auto"
+            ></v-img>
+
+            <v-card-actions>
+              <v-btn
+                color="red lighten-2"
+                dark
+                @click="showDetails(item)"
+                outlined
+                class="btnDetalhes"
+              >+ Detalhes</v-btn>
+            </v-card-actions>
           </v-card>
         </v-slide-item>
 
         <v-dialog v-model="dialog" width="500">
           <v-card>
-            <v-card-title
-              class="headline grey lighten-2"
-              primary-title
-            >{{cardSelected.name}}</v-card-title>
+            <v-card-title class="headline grey lighten-2" primary-title>{{cardSelected.name}}</v-card-title>
 
             <v-card-text>
               <br />
               <p>
-                Nome: {{cardSelected.name}}
-                <br />
                 Preço: {{cardSelected.price}}$
                 <br />
                 Descrição: {{cardSelected.description}}
@@ -164,5 +163,14 @@ export default {
 
 .v-tabs--icons-and-text > .v-tabs-bar .v-tab {
   color: #e57373;
+}
+
+.headline {
+  text-align: center;
+}
+
+.btnDetalhes{
+  margin: auto;
+  margin-bottom: 7%;
 }
 </style>

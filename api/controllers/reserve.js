@@ -101,7 +101,7 @@ router.patch('/:id', async (request, response) => {
     
 
     if (reserves == undefined) {
-        response.status(404).json({ sucess: false, error: 'Usuario não existe' })
+        response.status(404).json({ sucess: false, error: 'Reserva não existente' })
     }
     /* if(!cpfCheck(CPF)) {
          response.status(404).json({ sucess: false, error: 'Erro ao reconhecer o CPF'})
@@ -112,11 +112,11 @@ router.patch('/:id', async (request, response) => {
     try {
         const updateReserve = 'UPDATE reserve SET CPF = ?, name = ?, lastName = ?, phone = ?, amountPeoples = ?, date = ? WHERE id = ?'
         await database.run(updateReserve, [CPF, name, lastName, phone, amountPeoples, date, idReserve])
-        response.status(200).json({ sucess: "Nome alterado!" })
+        response.status(200).json({ sucess: "Reserva alterada!" })
     }
     catch (error) {
         console.log(error)
-        response.status(404).json({ sucess: false, erro: 'Deu ruim' })
+        response.status(404).json({ sucess: false, erro: 'Não foi possivel alterar' })
     }
 
 

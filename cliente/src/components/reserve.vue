@@ -6,7 +6,7 @@
           color="#a52a2a"
           x-large
           class="ma-10 white--text"
-          min-width="30vh"
+          min-width="20vw"
           dark
           v-on="on"
         >Reserve Agora</v-btn>
@@ -46,7 +46,6 @@
                   :return-value.sync="date"
                   transition="scale-transition"
                   offset-y
-                  min-width="500px"
                 >
                   <template v-slot:activator="{ on }">
                     <v-text-field label="Data" readonly v-on="on" v-model="date"></v-text-field>
@@ -71,14 +70,13 @@
           <v-btn color="#E57373" text @click="reserve">Salvar</v-btn>
         </v-card-actions>
       </v-card>
-      
     </v-dialog>
 
     <div class="text-center">
-        <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
-            {{ message }}
-            <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
-        </v-snackbar>
+      <v-snackbar v-model="snackbar" class="white--text" :timeout="timeout" :color="color">
+        {{ message }}
+        <v-btn dark text @click="snackbar = false" class="white--text">Close</v-btn>
+      </v-snackbar>
     </div>
     <!--============================CONSULTA RESERVA================================-->
 
@@ -88,11 +86,12 @@
           color="#a52a2a"
           x-large
           class="ma-10 white--text"
-          min-width="30vh"
+          min-width="20vw"
           dark
           v-on="on"
         >Consultar Reserva</v-btn>
       </template>
+
       <v-card>
         <v-card-title>
           <span class="headline">Formulário Consulta</span>
@@ -101,7 +100,11 @@
           <v-container>
             <v-row>
               <v-col cols="12" sm="6" md="10">
-                <v-text-field label="Digite aqui o CPF para consultar sua reserva"  v-model="CPF" required></v-text-field>
+                <v-text-field
+                  label="Digite aqui o CPF para consultar sua reserva"
+                  v-model="CPF"
+                  required
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
@@ -118,92 +121,90 @@
           <v-btn color="#E57373" text @click="query">Consultar</v-btn>
         </v-card-actions>
       </v-card>
-      
     </v-dialog>
   </v-row>
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 
-  export default {
-    data: () => ({
+export default {
+  data: () => ({
+    reserva: false,
+    consulta: false,
 
-      reserva: false,
-      consulta: false,
+    statusReserve: [],
 
-      statusReserve: "",
+    CPF: "",
+    name: "",
+    lastName: "",
+    phone: "",
+    amountPeoples: "",
+    date: "",
+    menu: "",
 
-      CPF: "",
-      name: "",
-      lastName: "",
-      phone: "",
-      amountPeoples: "",
-      date: "",
-      menu: '',
+    message: "",
+    timeout: 2000,
+    snackbar: false,
+    color: ""
+  }),
 
-      message: '',
-      timeout: 2000,
-      snackbar: false,
-      color: '',
-    }),
+  methods: {
+    reserve() {
+      axios
+        .post("http://localhost:3000/reserve/", {
+          CPF: this.CPF,
+          name: this.name,
+          lastName: this.lastName,
+          phone: this.phone,
+          amountPeoples: this.amountPeoples,
+          date: this.date
+        })
+        .then(res => {
+          this.reserva = false;
+          this.message = res.data.sucess;
+          this.snackbar = true;
+          this.color = "green";
+        })
+        .catch(e => {
+          console.log(e.response.data.error);
+          this.snackbar = true;
+          this.message = e.response.data.error;
+          this.color = "red";
+        });
+    },
 
-    methods: {
-      reserve(){
-        axios
-          .post('http://localhost:3000/reserve/', {
-            CPF: this.CPF,
-            name: this.name,
-            lastName: this.lastName,
-            phone: this.phone,
-            amountPeoples: this.amountPeoples,
-            date: this.date
-          })
-          .then( res => {
-            this.reserva = false
-            this.message = res.data.sucess
-            this.snackbar = true   
-            this.color="green"      
-          })
-          .catch((e) => {
-            console.log(e.response.data.error)
-            this.snackbar = true
-            this.message = e.response.data.error
-            this.color="red"
-          })
-        },
-
-      query(){
-        axios
-          .post('http://localhost:3000/reserve/query/', {
-            CPF: this.CPF
-          })
-          .then( res => {
-            this.statusReserve = res.data.sucess
-            this.reserva = false
-            this.message = res.data.sucess
-            this.snackbar = true   
-            this.color="green"      
-          })
-          .catch((e) => {
-            console.log(e.response.data.error)
-            this.snackbar = true
-            this.message = e.response.data.error
-            this.color="red"
-          })
-        },
-      
+    query() {
+      axios
+        .post("http://localhost:3000/reserve/query/", {
+          CPF: this.CPF
+        })
+        .then(res => {
+          this.statusReserve = res.data.sucess;
+          this.reserva = false;
+          this.message = res.data.sucess;
+          this.snackbar = true;
+          this.color = "green";
+        })
+        .catch(e => {
+          console.log(e.response.data.error);
+          this.snackbar = true;
+          this.message = e.response.data.error;
+          this.color = "red";
+        });
     }
   }
-  
+};
 </script>
 
 <style scoped>
 #background {
   align-items: center;
-  height: 30vh;
+  height: 20vw;
   background-image: url(https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1571&q=80);
   background-size: cover;
 }
+
+
 </style>
 

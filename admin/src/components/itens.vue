@@ -2,10 +2,10 @@
   <v-data-table :headers="headers" :items="menu" sort-by="id" class="elevation-1" dark>
     <template v-slot:top>
       <v-toolbar flat dark>
-        <v-toolbar-title>Lista de itens</v-toolbar-title>
+        <v-toolbar-title>LISTA DE ITENS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
-        <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true">Novo Item</v-btn>
+        <v-btn color="#ff5252" dark class="mb-2" @click="dialog = true">Novo Item</v-btn>
 
         <v-dialog v-model="dialog" max-width="500px">
 
@@ -36,8 +36,8 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="#ff4081" text @click="close">Finalizar</v-btn>
-              <v-btn color="#ff4081" text @click="save">Save</v-btn>
+              <v-btn color="#ff5252" text @click="close">Finalizar</v-btn>
+              <v-btn color="#ff5252" text @click="save">Save</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -54,8 +54,8 @@
 
     <template v-slot:item.action="{ item }">
       <div class="mx-2">
-        <v-icon small @click="editItem(item)" class="iconsList" color="indigo lighten-4">fas fa-edit</v-icon>
-        <v-icon small @click="deleteItem(item)" class="iconsList" color="indigo lighten-4" >fas fa-trash-alt</v-icon>
+        <v-icon small @click="editItem(item)" class="iconsList">fas fa-edit</v-icon>
+        <v-icon small @click="deleteItem(item)" class="iconsList" >fas fa-trash-alt</v-icon>
       </div>
     </template>
 
@@ -254,3 +254,20 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+
+.iconsList{
+  margin: 5px;
+}
+
+.theme--dark.v-sheet {
+    background-color: #0a0a0a;
+}
+
+.theme--dark.v-data-table {
+    background-color: #191919;
+    color: #FFFFFF;
+}
+
+</style>

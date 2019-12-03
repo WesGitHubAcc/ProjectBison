@@ -1,4 +1,5 @@
 <template>
+<div class="backgroundEvent">
     <v-carousel
       hide-delimiter-background
       show-arrows-on-hover
@@ -20,11 +21,14 @@
             justify="center"
           >
           <img :src="slide.image"
-          contain=true >
+          contain
+          
+          >
           </v-row>
       </v-sheet>
       </v-carousel-item>
     </v-carousel>
+</div>
 </template>
 
 <script>
@@ -42,8 +46,12 @@ import axios from 'axios'
 </script>
 
 <style scoped>
-  .theme--dark.v-sheet{
-    background-image: url(https://images.unsplash.com/photo-1513491714241-33805f8ff175?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
+  .backgroundEvent{
+  background-image: url(https://images.unsplash.com/photo-1513491714241-33805f8ff175?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
   background-size: cover;
   } 
+
+.theme--dark.v-sheet{
+  background-color: rgba(255, 235, 205, 0);
+}
 </style>

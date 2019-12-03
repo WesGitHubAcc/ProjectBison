@@ -1,8 +1,8 @@
 <template >
-      <v-data-table :headers="headers" :items="reserveCrud" sort-by="name" :search="search" class="elevation-1" dark >
+      <v-data-table :headers="headers" :items="reserveCrud" sort-by="id" :search="search" class="elevation-1" dark >
         <template v-slot:top>
           <v-toolbar flat dark>
-            <v-toolbar-title >Lista de Reservas</v-toolbar-title>
+            <v-toolbar-title >LISTA DE RESERVAS</v-toolbar-title>
             <v-divider class="mx-4" inset vertical></v-divider>
              <v-spacer></v-spacer>
                 <v-text-field
@@ -11,9 +11,10 @@
                   label="Search"
                   single-line
                   hide-details
+                  color="#ff5252"
                 ></v-text-field>
                 <v-spacer></v-spacer>
-            <v-btn color="teal lighten-1" dark class="mb-2" @click="dialog = true" >Nova Reserva</v-btn>
+            <v-btn color="#ff5252" dark class="mb-2" @click="dialog = true" >Nova Reserva</v-btn>
 
             <v-dialog v-model="dialog" max-width="500px">
               <v-card>
@@ -57,8 +58,8 @@
                             </template>
                             <v-date-picker v-model="date" no-title scrollable>
                                 <v-spacer></v-spacer>
-                                <v-btn text color="#ff4081" @click="menu = false">Cancel</v-btn>
-                                <v-btn text color="#ff4081" @click="$refs.menu.save(date)">OK</v-btn>
+                                <v-btn text color="#ff5252" @click="menu = false">Cancel</v-btn>
+                                <v-btn text color="#ff5252" @click="$refs.menu.save(date)">OK</v-btn>
                             </v-date-picker>
                             </v-menu>
                         </v-col>
@@ -68,8 +69,8 @@
 
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn color="#ff4081" text @click="close">Cancel</v-btn>
-                  <v-btn color="#ff4081" text @click="save">Save</v-btn>
+                  <v-btn color="#ff5252" text @click="close">Cancel</v-btn>
+                  <v-btn color="#ff5252" text @click="save">Save</v-btn>
                 </v-card-actions>   
               </v-card>
 
@@ -87,8 +88,8 @@
 
         <template v-slot:item.action="{ item }">
           <div class="mx-2">
-            <v-icon small @click="editItem(item)" class="iconsList" color="indigo lighten-4">fas fa-edit</v-icon>
-            <v-icon small @click="deleteItem(item)" class="iconsList" color="indigo lighten-4">fas fa-trash-alt</v-icon>
+            <v-icon small @click="editItem(item)" class="iconsList" >fas fa-edit</v-icon>
+            <v-icon small @click="deleteItem(item)" class="iconsList" >fas fa-trash-alt</v-icon>
           </div> 
         </template>
 
@@ -126,7 +127,8 @@ export default {
     itemsPerPage: 10,
 
     headers: [
- 
+      
+      { text: "ID", value: "id" },
       { text: "CPF", value: "CPF" },
       { text: "Nome", value: "name" },
       { text: "Sobrenome", value: "lastName" },
@@ -307,3 +309,20 @@ export default {
   }
 };
 </script>
+
+<style>
+.iconsList{
+  margin: 5px;
+}
+
+.theme--dark.v-sheet {
+    background-color: #0a0a0a;
+}
+
+.theme--dark.v-data-table {
+    background-color: #191919;
+    color: #FFFFFF;
+}
+
+
+</style>
