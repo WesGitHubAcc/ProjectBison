@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-tabs v-model="tab" centered dark  icons-and-text fixed-tabs>
+    <v-tabs v-model="tab" centered  dark  icons-and-text fixed-tabs>
       <v-tabs-slider></v-tabs-slider>
 
       <v-tab href="#tab-1" @click="category(1)">
@@ -34,7 +34,7 @@
       </v-tab>
     </v-tabs>
 
-    <v-sheet class="mx-auto" elevation="8" width="100%">
+    <v-sheet class="mx-auto" elevation="8" width="100%" dark>
       <v-slide-group v-model="model" class="pa-1" show-arrows center-active>
         <v-slide-item v-for="item in itens" :key="item.id" v-slot:default="{ active, toggle }">
           <v-card
@@ -43,56 +43,27 @@
             max-width="344"
             min-width="300"
             @click="toggle"
+            dark
           >
-            <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="headline">{{item.name}}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-
             <v-img
-              :src="item.image"
-              aspect-ratio="1"
-              max-width="200"
-              max-height="200"
-              contain
-              class="mx-auto"
-            ></v-img>
+      :src="item.image"
+      height="200px"
+    ></v-img>
 
-            <v-card-actions>
-              <v-btn
-                color="red lighten-2"
-                dark
-                @click="showDetails(item)"
-                outlined
-                class="btnDetalhes"
-              >+ Detalhes</v-btn>
-            </v-card-actions>
+    <v-card-title class="text--primary">
+      {{item.name}}
+    </v-card-title>
+
+    <v-card-subtitle class="text--primary">
+      {{item.price}}$
+    </v-card-subtitle>
+    <v-card-text>
+    <div class="text--primary">
+        {{item.description}}
+      </div>
+    </v-card-text>
           </v-card>
         </v-slide-item>
-
-        <v-dialog v-model="dialog" width="500">
-          <v-card>
-            <v-card-title class="headline grey lighten-2" primary-title>{{cardSelected.name}}</v-card-title>
-
-            <v-card-text>
-              <br />
-              <p>
-                Preço: {{cardSelected.price}}$
-                <br />
-                Descrição: {{cardSelected.description}}
-              </p>
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="#E57373" text @click="dialog = false">ok</v-btn>
-            </v-card-actions>
-          </v-card>
-          <!------------------------------------------------------------------------------>
-        </v-dialog>
       </v-slide-group>
     </v-sheet>
   </v-card>
@@ -115,6 +86,7 @@ export default {
         .get(`http://localhost:3000/category/${1}`)
         .then(res => {
           this.itens = res.data.sucess
+
         });
   },
 
@@ -141,13 +113,6 @@ export default {
 </script>
 
 <style scoped>
-.v-tabs-slider {
-  color: #e57373;
-}
-
-.v-tabs--icons-and-text > .v-tabs-bar .v-tab {
-  color: #e57373;
-}
 
 .headline {
   text-align: center;
@@ -157,4 +122,15 @@ export default {
   margin: auto;
   margin-bottom: 7%;
 }
+
+.v-tab--active {
+    color: #ffffff;
+    text-shadow: #FFF 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, rgb(228, 10, 10) 0px 0px 20px, rgb(228, 10, 10) 0px 0px 30px, rgb(228, 10, 10) 0px 0px 40px, rgb(228, 10, 10) 0px 0px 50px, rgb(228, 10, 10) 0px 0px 75px;
+}
+
+.v-tab[data-v-a380d422] {
+    color: #ffffff;
+}
+
+
 </style>

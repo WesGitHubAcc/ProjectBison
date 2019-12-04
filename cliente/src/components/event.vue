@@ -3,11 +3,11 @@
     <v-carousel
       :hide-delimiters="true"
       :vertical="true"
-      height="500"
+
     >
       <v-carousel-item v-for=" (slide, i) in slides" :key="i">
         <v-row class="fill-height ma-0" align="center" justify="center">
-          <img :src="slide.image" contain height="100%" width="1920" />
+          <img :src="slide.image"  height="100%" />
         </v-row>
       </v-carousel-item>
     </v-carousel>

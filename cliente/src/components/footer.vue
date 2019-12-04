@@ -32,6 +32,16 @@
             <v-icon size="24px">fab fa-instagram</v-icon>
           </v-btn>
         </v-card-title>
+
+        <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d847.9905190565325!2d-52.34080729007643!3d-31.771520269593648!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9511b595e4e90927%3A0xd724da621c049144!2sBlack%20Bison!5e0!3m2!1spt-BR!2sbr!4v1574272555143!5m2!1spt-BR!2sbr"
+        width="100%" 
+        height="400" 
+        frameborder="0" 
+        style="border:0;" 
+        allowfullscreen=""
+   >
+   </iframe>
   
         <v-card-text class="py-2 white--text text-center">
           <div id="info">

@@ -70,7 +70,6 @@ export default {
 
       { text: "id", value: "id", align: "left" },
       { text: "Nome", value: "name" },
-      { text: "Imagem", value: "image" },
       { text: "Ações", value: "action", sortable: false }
 
     ],
