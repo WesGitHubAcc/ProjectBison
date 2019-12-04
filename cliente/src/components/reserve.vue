@@ -3,6 +3,7 @@
     <v-dialog v-model="reserva" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
+          outlined
           color="#a52a2a"
           x-large
           class="ma-10 white--text"
@@ -89,6 +90,7 @@
           min-width="20vw"
           dark
           v-on="on"
+          outlined
         >Consultar Reserva</v-btn>
       </template>
 

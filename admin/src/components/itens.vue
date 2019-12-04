@@ -1,10 +1,19 @@
 <template >
-  <v-data-table :headers="headers" :items="menu" sort-by="id" class="elevation-1" dark>
+  <v-data-table :headers="headers" :items="menu" sort-by="id" :search="search" class="elevation-1" dark>
     <template v-slot:top>
       <v-toolbar flat dark>
         <v-toolbar-title>LISTA DE ITENS</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
+        <v-text-field
+                  v-model="search"
+                  append-icon="fas fa-search"
+                  label="Search"
+                  single-line
+                  hide-details
+                  color="#ff5252"
+                ></v-text-field>
+                <v-spacer></v-spacer>
         <v-btn color="#ff5252" dark class="mb-2" @click="dialog = true">Novo Item</v-btn>
 
         <v-dialog v-model="dialog" max-width="500px">
@@ -73,7 +82,7 @@ import axios from "axios";
 
 export default {
   data: () => ({
-
+    search: '',
     dialog: false,
 
     message: '',

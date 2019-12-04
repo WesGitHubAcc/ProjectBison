@@ -1,57 +1,40 @@
 <template>
-<div class="backgroundEvent">
+  <div class="backgroundEvent">
     <v-carousel
-      hide-delimiter-background
-      show-arrows-on-hover
-      :hide-delimiters=false
-      :vertical= true
+      :hide-delimiters="true"
+      :vertical="true"
+      height="500"
     >
-      <v-carousel-item
-        v-for=" (slide, i) in slides"
-        :key="i"
-      >
-
-      <v-sheet
-        height="100%"
-        :tile=true
-      >
-          <v-row
-            class="fill-height"
-            align="center"
-            justify="center"
-          >
-          <img :src="slide.image"
-          contain
-          
-          >
-          </v-row>
-      </v-sheet>
+      <v-carousel-item v-for=" (slide, i) in slides" :key="i">
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <img :src="slide.image" contain height="100%" width="1920" />
+        </v-row>
       </v-carousel-item>
     </v-carousel>
-</div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
-    export default {
-      data () {
-        return {
-          slides: 
-              axios.get('http://localhost:3000/event/')
-              .then(res => this.slides = res.data.sucess)
-        }
-      },
-    }
+export default {
+  data() {
+    return {
+      slides: axios
+        .get("http://localhost:3000/event/")
+        .then(res => (this.slides = res.data.sucess))
+    };
+  }
+};
 </script>
 
 <style scoped>
-  .backgroundEvent{
+.backgroundEvent {
   background-image: url(https://images.unsplash.com/photo-1513491714241-33805f8ff175?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80);
   background-size: cover;
-  } 
+}
 
-.theme--dark.v-sheet{
+.theme--dark.v-sheet {
   background-color: rgba(255, 235, 205, 0);
 }
 </style>

@@ -1,34 +1,34 @@
 <template>
   <v-card>
-    <v-tabs v-model="tab" centered dark icons-and-text fixed-tabs>
+    <v-tabs v-model="tab" centered dark  icons-and-text fixed-tabs>
       <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#tab-1" @click="burguers">
+      <v-tab href="#tab-1" @click="category(1)">
         Burguers
         <v-icon>fas fa-hamburger</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-2" @click="aperitivos">
+      <v-tab href="#tab-2" @click="category(2)">
         Aperitivos
         <v-icon>fas fa-utensils</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-3" @click="drinks">
+      <v-tab href="#tab-3" @click="category(3)">
         drinks
         <v-icon>fas fa-glass-martini-alt</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-4" @click="bifes">
+      <v-tab href="#tab-4" @click="category(4)">
         Bifes
         <v-icon>fas fa-stroopwafel</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-5" @click="sobremesas">
+      <v-tab href="#tab-5" @click="category(5)">
         Sobremesas
         <v-icon>fas fa-ice-cream</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-6" @click="outros">
+      <v-tab href="#tab-6" @click="category(6)">
         Outros
         <v-icon>fas fa-bacon</v-icon>
       </v-tab>
@@ -103,41 +103,25 @@ import axios from "axios";
 
 export default {
   data: () => ({
-    itens: null,
-    tab: null,
-    model: null,
+    itens: [],
+    tab: false,
+    model: false,
     dialog: false,
-    cardSelected: []
+    cardSelected: [],
   }),
-  methods: {
-    burguers() {
+
+  created() {
       axios
         .get(`http://localhost:3000/category/${1}`)
-        .then(res => (this.itens = res.data.sucess));
-    },
-    aperitivos() {
+        .then(res => {
+          this.itens = res.data.sucess
+        });
+  },
+
+  methods: {
+    category(id) {
       axios
-        .get(`http://localhost:3000/category/${2}`)
-        .then(res => (this.itens = res.data.sucess));
-    },
-    drinks() {
-      axios
-        .get(`http://localhost:3000/category/${3}`)
-        .then(res => (this.itens = res.data.sucess));
-    },
-    bifes() {
-      axios
-        .get(`http://localhost:3000/category/${4}`)
-        .then(res => (this.itens = res.data.sucess));
-    },
-    sobremesas() {
-      axios
-        .get(`http://localhost:3000/category/${5}`)
-        .then(res => (this.itens = res.data.sucess));
-    },
-    outros() {
-      axios
-        .get(`http://localhost:3000/category/${6}`)
+        .get(`http://localhost:3000/category/${id}`)
         .then(res => (this.itens = res.data.sucess));
     },
 

@@ -53,7 +53,7 @@
 
     #tituloToolbar{
       color: #FFFFFF;
-      padding: 5vw;
+      padding: 5vw 2vw;
       text-shadow: #FFF 0px 0px 5px, #FFF 0px 0px 10px, #FFF 0px 0px 15px, rgb(228, 10, 10) 0px 0px 20px,  rgb(228, 10, 10) 0px 0px 30px, rgb(228, 10, 10) 0px 0px 40px,   rgb(228, 10, 10) 0px 0px 50px,   rgb(228, 10, 10) 0px 0px 75px;
     }
 </style>
