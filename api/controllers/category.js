@@ -28,13 +28,13 @@ router.get('/:id', async (request, response) => {
 //===================================MOSTRA AS CATEGORIA SELECIONADA============================
 
 router.get("/", async (request, response) => {
-    const selectCategory = 'SELECT id FROM category'
+    const selectCategory = 'SELECT * FROM category'
 
-    const category = await database.all(selectCategory)
-    if (category === undefined) {
+    const rows = await database.all(selectCategory)
+    if (rows === undefined) {
         response.status(404).json({ sucess: false, error: "Campos vazios!" })
     }
-    response.status(200).json({ sucess: items, error: false })
+    response.status(200).json({ sucess: rows, error: false })
 })
 //===========================================CADASTRA CATEGORIA===============================================
 

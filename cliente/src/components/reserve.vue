@@ -7,11 +7,12 @@
           color="#a52a2a"
           x-large
           class="ma-10 white--text"
-          min-width="20vw"
+          min-width="30vw"
           dark
           v-on="on"
         >Reserve Agora</v-btn>
       </template>
+
       <v-card>
         <v-card-title>
           <span class="headline">Formulário Reserva</span>
@@ -19,8 +20,6 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <!--======================Campos formulario ===================================-->
-
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="Nome" v-model="name" required></v-text-field>
               </v-col>
@@ -81,13 +80,13 @@
     </div>
     <!--============================CONSULTA RESERVA================================-->
 
-    <v-dialog v-model="consulta" persistent max-width="800px">
+    <v-dialog v-model="consulta" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
           color="#a52a2a"
           x-large
           class="ma-10 white--text"
-          min-width="20vw"
+          min-width="30vw"
           dark
           v-on="on"
           outlined
@@ -202,7 +201,7 @@ export default {
 <style scoped>
 #background {
   align-items: center;
-  height: 20vw;
+  height: 40vh;
   background-image: url(https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1571&q=80);
   background-size: cover;
 }

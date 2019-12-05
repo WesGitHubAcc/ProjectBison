@@ -3,32 +3,32 @@
     <v-tabs v-model="tab" centered  dark  icons-and-text fixed-tabs>
       <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#tab-1" @click="category(1)">
+      <v-tab href="#tab-1" @click="category(6)">
         Burguers
         <v-icon>fas fa-hamburger</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-2" @click="category(2)">
+      <v-tab href="#tab-2" @click="category(7)">
         Aperitivos
         <v-icon>fas fa-utensils</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-3" @click="category(3)">
+      <v-tab href="#tab-3" @click="category(8)">
         drinks
         <v-icon>fas fa-glass-martini-alt</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-4" @click="category(4)">
+      <v-tab href="#tab-4" @click="category(9)">
         Bifes
         <v-icon>fas fa-stroopwafel</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-5" @click="category(5)">
+      <v-tab href="#tab-5" @click="category(10)">
         Sobremesas
         <v-icon>fas fa-ice-cream</v-icon>
       </v-tab>
 
-      <v-tab href="#tab-6" @click="category(6)">
+      <v-tab href="#tab-6" @click="category(11)">
         Outros
         <v-icon>fas fa-bacon</v-icon>
       </v-tab>
@@ -83,7 +83,7 @@ export default {
 
   created() {
       axios
-        .get(`http://localhost:3000/category/${1}`)
+        .get(`http://localhost:3000/category/${6}`)
         .then(res => {
           this.itens = res.data.sucess
 
@@ -96,18 +96,6 @@ export default {
         .get(`http://localhost:3000/category/${id}`)
         .then(res => (this.itens = res.data.sucess));
     },
-
-    showDetails(item) {
-      axios
-        .get(`http://localhost:3000/menu/${item.id}`)
-        .then(res => {
-          this.cardSelected = res.data.sucess[0];
-          this.dialog = true;
-        })
-        .catch(e => {
-          console.log(e.response.data.error);
-        });
-    }
   }
 };
 </script>

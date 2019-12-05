@@ -43,17 +43,7 @@
    >
    </iframe>
   
-        <v-card-text class="py-2 white--text text-center">
-          <div id="info">
-          {{ new Date().getFullYear() }} — <strong>Black Bison</strong>
-          <p>
-          R. Felix Xavier da Cunha, 555 - Centro<br>
-          Pelotas RS, 96010-000<br>
-          elefone: (53) 99710-4482<br>
-          Aberto de 19:00 ás 02:00
-          </p> 
-          </div>
-        </v-card-text>
+
       </v-card>
     </v-footer>
   </template>
@@ -69,7 +59,7 @@
   <style scoped>
   
   #topo{
-      background-color:brown;
+      background-color:rgb(112, 32, 32);
   }
 
   #info{
