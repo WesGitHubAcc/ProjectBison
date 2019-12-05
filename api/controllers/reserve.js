@@ -26,19 +26,26 @@ router.get('/', async (request, response) => {
 //================================MOSTRA RESERVA DO CLIENTE PELO CPF=========================================
 
 router.post('/query', async (request, response) => {
+    
 
     const {CPF} = request.body
     
-    const selectReserveID = 'SELECT * FROM reserve WHERE CPF = ?'
+    const selectReserveID = 'SELECT * FROM reserve WHERE CPF = ? and date >= current_date '
 
-    const row = await database.all(selectReserveID, [CPF])
-
-        if (row.length > 0){
-            response.status(200).json({ sucess: row , error: false })
+  
+        const row = await database.all(selectReserveID, [CPF])
+     //   console.log(row.length)
+        if(row.length > 0){
+            response.status(200).json({ sucess: row , error: false }) 
         }else{
-            response.status(404).json({ sucess: false, error: "Não foi encontrado nenhuma reserva com este CPF" })
+            
+        response.status(404).json({ sucess: false, error: "Não foi encontrado nenhuma reserva com este CPF" })
         }
-                
+            
+ 
+        
+   
+      
 })
 
 //=====================================INSERE RESERVA DO CLIENTE=============================================
