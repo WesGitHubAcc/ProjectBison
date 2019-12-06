@@ -36,7 +36,7 @@ router.post('/query', async (request, response) => {
         const row = await database.all(selectReserveID, [CPF])
      //   console.log(row.length)
         if(row.length > 0){
-            response.status(200).json({ sucess: row , error: false }) 
+            response.status(200).json({ sucess: "Reserva Encontrada!" , error: false }) 
         }else{
             
         response.status(404).json({ sucess: false, error: "Não foi encontrado nenhuma reserva com este CPF" })
