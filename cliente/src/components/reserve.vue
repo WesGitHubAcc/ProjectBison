@@ -110,10 +110,9 @@
             </v-row>
  
               <v-data-table dense :headers="headers" :items="statusReserve" class="elevation-1">
-                <template v-slot:item.action="{ statusReserve }">
+                <template v-slot:item.action="{ item }">
                   <div class="mx-2">
-                    <v-icon small @click="editItem(statusReserve)" class="iconsList" >fas fa-edit</v-icon>
-                    <v-icon small @click="deleteReserve(statusReserve)" class="iconsList" >fas fa-trash-alt</v-icon>
+                    <v-icon small @click="deleteReserve(item)" color="red" >fas fa-window-close</v-icon>
                   </div>
                 </template>
               </v-data-table>
@@ -160,7 +159,7 @@ export default {
       { text: "Telefone", value: "phone" },
       { text: "Nº Pessoas", value: "amountPeoples" },
       { text: "Data", value: "date" },
-      { text: "Actions", value: "action", sortable: false }
+      { text: "Cancelar", value: "action", sortable: false }
     ]
   }),
 
@@ -211,9 +210,9 @@ export default {
 
      deleteReserve(item) {
        console.log(item)
-      const index = this.reserveCrud.indexOf(item);
+      const index = this.statusReserve.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
-      const condition = confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1);
+      const condition = confirm("Voce tem certeza que deseja apagar esta reserva") && this.statusReserve.splice(index, 1);
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
       if(condition){
         axios

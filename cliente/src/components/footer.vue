@@ -12,25 +12,6 @@
           <strong class="subheading">Venha nos visitar!</strong>
   
           <v-spacer></v-spacer>
-  
-          <v-btn
-            href="https://www.facebook.com/blackbisonbr/"
-            class="mx-4"
-            dark
-            icon
-            target="resource window"
-          >
-            <v-icon size="24px">fab fa-facebook</v-icon>
-          </v-btn>
-          <v-btn
-            href="https://www.instagram.com/blackbisonbr/"
-            class="mx-4"
-            dark
-            icon
-            target="resource window"
-          >
-            <v-icon size="24px">fab fa-instagram</v-icon>
-          </v-btn>
         </v-card-title>
 
         <iframe 
