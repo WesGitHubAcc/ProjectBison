@@ -3,7 +3,7 @@
     <v-carousel
       :hide-delimiters="true"
       :vertical="true"
-
+    id="event"
     >
       <v-carousel-item v-for=" (slide, i) in slides" :key="i">
         <v-row class="fill-height ma-0" align="center" justify="center">
@@ -24,6 +24,9 @@ export default {
         .get("http://localhost:3000/event/")
         .then(res => (this.slides = res.data.sucess))
     };
+  },
+  created(){
+    this.$eventHub.$emit('event', '#event')
   }
 };
 </script>

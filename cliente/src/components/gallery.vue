@@ -1,6 +1,7 @@
 <template>
  
   <v-carousel
+  id="home"
   cycle 
   :show-arrows="false"
   height = "100vh"
@@ -37,6 +38,9 @@
         ],
       }
     },
+    created(){
+      this.$eventHub.$emit('home', '#home')
+    }
   }
 </script>
 
