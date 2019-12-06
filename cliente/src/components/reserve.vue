@@ -1,6 +1,6 @@
 <template>
-  <v-row id="background" justify="center">
-    <v-dialog v-model="reserva" persistent max-width="600px">
+  <v-row id="reserve" justify="center">
+    <v-dialog  v-model="reserva" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
           outlined
@@ -163,7 +163,9 @@ export default {
       { text: "Actions", value: "action", sortable: false }
     ]
   }),
-
+  created(){
+    this.$eventHub.$emit('reserve', '#reserve')
+  },
   methods: {
     reserve() {
       axios
@@ -237,7 +239,7 @@ export default {
 </script>
 
 <style scoped>
-#background {
+#reserve {
   align-items: center;
   height: 40vh;
   background-image: url(https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1571&q=80);

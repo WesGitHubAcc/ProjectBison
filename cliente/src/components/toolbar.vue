@@ -34,13 +34,14 @@
       <v-spacer ></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text>Home</v-btn>
-        <v-btn text>Eventos</v-btn>
-        <v-btn text>Cardapio</v-btn>
-        <v-btn text>Reservas</v-btn>
+        
+        <v-btn text @click="$vuetify.goTo(galeria, options)">Home</v-btn>
+        <v-btn text @click="$vuetify.goTo(event, options)">Evento</v-btn>
+        <v-btn text @click="$vuetify.goTo(menu, options)">Cardapio</v-btn>
+        <v-btn text @click="$vuetify.goTo(reserve, options)" >Reserve</v-btn>
         <v-btn text>Sobre</v-btn>
       </v-toolbar-items>
-
+    
     </v-app-bar>
 
 </template>
@@ -59,9 +60,39 @@
 </style>
 
 <script>
+
+ import * as easings from 'vuetify/es5/services/goto/easing-patterns'
 export default {
   data: () => ({
-    coor: 'rgb(170, 92, 170)'
-  })
+    coor: 'rgb(170, 92, 170)',
+    galeria: '',
+    offset: 100,
+    duration: 700,
+    easing: "easeInOutCubic",
+    easings: Object.keys(easings),
+    event: '',
+    menu: '',
+    reserve: ''
+  }),
+  created() {
+     this.$eventHub.$on('home', idHome => this.galeria = idHome)
+      this.$eventHub.$on('event', idEvent => this.event = idEvent)
+       this.$eventHub.$on('menu', idMenu => this.menu = idMenu)
+          this.$eventHub.$on('reserve', idReserve => this.reserve = idReserve)
+  },
+   computed: {
+      target () {
+        const value = this[this.type]
+        if (!isNaN(value)) return Number(value)
+        else return value
+      },
+     
+   options () {
+        return {
+          duration: this.duration,
+          offset: this.offset,
+          easing: this.easing,
+        }}
+}
 }
 </script>

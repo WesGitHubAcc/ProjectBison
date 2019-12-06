@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-tabs v-model="tab" centered  dark  icons-and-text fixed-tabs>
+    <v-tabs id="menu" v-model="tab" centered  dark  icons-and-text fixed-tabs>
       <v-tabs-slider></v-tabs-slider>
 
       <v-tab href="#tab-1" @click="category(6)">
@@ -79,6 +79,7 @@ export default {
     model: false,
     dialog: false,
     cardSelected: [],
+    galeria: ''
   }),
 
   created() {
@@ -88,6 +89,9 @@ export default {
           this.itens = res.data.sucess
 
         });
+        this.$eventHub.$emit('menu', '#menu')
+       
+     
   },
 
   methods: {
