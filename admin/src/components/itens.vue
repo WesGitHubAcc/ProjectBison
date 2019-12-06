@@ -281,9 +281,7 @@ export default {
 </script>
 
 <style scoped>
-.iconsList {
-  margin: 5px;
-}
+
 
 .theme--dark.v-sheet {
   background-color: #0a0a0a;

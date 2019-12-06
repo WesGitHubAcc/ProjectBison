@@ -8,7 +8,7 @@
         max-height="500"
     >
 
-    <v-card max-width="600" class="mx-auto"  >
+    <v-card max-width="600" alignSelf="center" >
         <v-card-title >Sobre Nós</v-card-title>
         <v-card-text >
          Somos um bar e restaurante focado em trazer o melhor da gastronomia americana. Nosso objetivo é dar outro significado para o sentido de bar.
@@ -27,7 +27,6 @@
 
 
     </v-card>    
- 
     </v-img>
   </v-row>
 

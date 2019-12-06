@@ -108,10 +108,16 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-row>
-              {{statusReserve.name}}
-              {{statusReserve.date}}
-            </v-row>
+ 
+              <v-data-table dense :headers="headers" :items="statusReserve" class="elevation-1">
+                <template v-slot:item.action="{ statusReserve }">
+                  <div class="mx-2">
+                    <v-icon small @click="editItem(statusReserve)" class="iconsList" >fas fa-edit</v-icon>
+                    <v-icon small @click="deleteReserve(statusReserve)" class="iconsList" >fas fa-trash-alt</v-icon>
+                  </div>
+                </template>
+              </v-data-table>
+   
           </v-container>
           <small>*Regras da Reserva</small>
         </v-card-text>
@@ -147,7 +153,15 @@ export default {
     message: "",
     timeout: 2000,
     snackbar: false,
-    color: ""
+    color: "",
+
+    headers: [
+      { text: "Nome", value: "name" },
+      { text: "Telefone", value: "phone" },
+      { text: "Nº Pessoas", value: "amountPeoples" },
+      { text: "Data", value: "date" },
+      { text: "Actions", value: "action", sortable: false }
+    ]
   }),
 
   methods: {
@@ -193,7 +207,31 @@ export default {
           this.message = e.response.data.error;
           this.color = "red";
         });
-    }
+    },
+
+     deleteReserve(item) {
+       console.log(item)
+      const index = this.reserveCrud.indexOf(item);
+      //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
+      const condition = confirm("Voce tem certeza que deseja apagar este item?") && this.reserveCrud.splice(index, 1);
+      //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
+      if(condition){
+        axios
+          .delete(`http://localhost:3000/reserve/${item.id}`)
+          .then(res => {
+            this.message = res.data.sucess;
+            this.color="green"
+            this.snackbar = true;
+          })
+          .catch(e => {
+            this.message = e.response.data.error;
+            this.color="red"
+            this.snackbar = true;
+          });
+      }else{
+        console.log("cancelado")
+      } 
+    },
   }
 };
 </script>
@@ -205,7 +243,5 @@ export default {
   background-image: url(https://images.unsplash.com/photo-1509807995916-c332365e2d9e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1571&q=80);
   background-size: cover;
 }
-
-
 </style>
 
