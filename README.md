@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="black" title="black" src="assets/logo.jpg" width='500px'/>
+    <img alt="black" title="black" src="assets/logo.jpg" width='300px'/>
 </h1>
 
 <p align="center">
@@ -27,15 +27,15 @@ Documentação: [Link][documentacao]
 
 ### 🎨 Interface
 
-- #### Admin
+- #### Administrativo
 
 <h1 align="center">
-  <img alt="interface" title="interface" src="assets/adm.png" width='800px'>
+  <img alt="interface" title="interface" src="assets/adm.png" width='900px'>
 </h1>
 
 - #### Cliente
 <h1 align="center">
-  <img alt="interface" title="interface" src="assets/cliente.png" width='800px'>
+  <img alt="interface" title="interface" src="assets/cliente.png" width='900px'>
 </h1>
 
 ---
