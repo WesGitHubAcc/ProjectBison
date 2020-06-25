@@ -5,15 +5,15 @@
 <p align="center">
   <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/WesleyMarquesGit/BlackBison?color=%2304D361">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/WesleyMarquesGit/Ecoleta">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/WesleyMarquesGit/BlackBison">
   
-  <a href="https://github.com/WesleyMarquesGit/Ecoleta/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/WesleyMarquesGit/Ecoleta">
+  <a href="https://github.com/WesleyMarquesGit/BlackBison/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/WesleyMarquesGit/BlackBison">
   </a>
 
   <img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
-   <a href="https://github.com/WesleyMarquesGit/Ecoleta/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/WesleyMarquesGit/Ecoleta?style=social">
+   <a href="https://github.com/WesleyMarquesGit/BlackBison/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/WesleyMarquesGit/BlackBison?style=social">
   </a>
 </p>
 
