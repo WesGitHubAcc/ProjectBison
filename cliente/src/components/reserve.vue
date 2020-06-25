@@ -1,6 +1,6 @@
 <template>
   <v-row id="reserve" justify="center">
-    <v-dialog  v-model="reserva" persistent max-width="600px">
+    <v-dialog v-model="reserva" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn
           outlined
@@ -108,15 +108,14 @@
                 ></v-text-field>
               </v-col>
             </v-row>
- 
-              <v-data-table dense :headers="headers" :items="statusReserve" class="elevation-1">
-                <template v-slot:item.action="{ item }">
-                  <div class="mx-2">
-                    <v-icon small @click="deleteReserve(item)" color="red" >fas fa-window-close</v-icon>
-                  </div>
-                </template>
-              </v-data-table>
-   
+
+            <v-data-table
+              dense
+              disable-pagination="true"
+              :headers="headers"
+              :items="statusReserve"
+              class="elevation-1"
+            ></v-data-table>
           </v-container>
           <small>*Regras da Reserva</small>
         </v-card-text>
@@ -158,12 +157,11 @@ export default {
       { text: "Nome", value: "name" },
       { text: "Telefone", value: "phone" },
       { text: "Nº Pessoas", value: "amountPeoples" },
-      { text: "Data", value: "date" },
-      { text: "Cancelar", value: "action", sortable: false }
+      { text: "Data", value: "date" }
     ]
   }),
-  created(){
-    this.$eventHub.$emit('reserve', '#reserve')
+  created() {
+    this.$eventHub.$emit("reserve", "#reserve");
   },
   methods: {
     reserve() {
@@ -195,44 +193,45 @@ export default {
         .post("http://localhost:3000/reserve/query/", {
           CPF: this.CPF
         })
-        .then(res => {
-          this.statusReserve = res.data.sucess;
+        .then(response => {
+          this.statusReserve = response.data.sucess;
           this.reserva = false;
-          this.message = res.data.sucess;
+          this.message = "Cadastro encontrado";
           this.snackbar = true;
           this.color = "green";
         })
         .catch(e => {
-          console.log(e.response.data.error);
           this.snackbar = true;
           this.message = e.response.data.error;
           this.color = "red";
         });
     },
 
-     deleteReserve(item) {
-       console.log(item)
+    deleteReserve(item) {
+      console.log(item);
       const index = this.statusReserve.indexOf(item);
       //indexOfRetorna o primeiro índice em que o elemento pode ser encontrado no array, retorna -1 caso o mesmo não esteja presente.
-      const condition = confirm("Voce tem certeza que deseja apagar esta reserva") && this.statusReserve.splice(index, 1);
+      const condition =
+        confirm("Voce tem certeza que deseja apagar esta reserva") &&
+        this.statusReserve.splice(index, 1);
       //Splice Altera o conteúdo de uma lista, adicionando novos elementos enquanto remove elementos antigos.
-      if(condition){
+      if (condition) {
         axios
           .delete(`http://localhost:3000/reserve/${item.id}`)
           .then(res => {
             this.message = res.data.sucess;
-            this.color="green"
+            this.color = "green";
             this.snackbar = true;
           })
           .catch(e => {
             this.message = e.response.data.error;
-            this.color="red"
+            this.color = "red";
             this.snackbar = true;
           });
-      }else{
-        console.log("cancelado")
-      } 
-    },
+      } else {
+        console.log("cancelado");
+      }
+    }
   }
 };
 </script>
